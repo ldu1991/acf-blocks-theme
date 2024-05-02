@@ -300,4 +300,3 @@ function watch(cb) {
 
 exports.release = gulp.series(scssRelease, scssBlocksRelease, jsRelease);
 exports.default = gulp.series(scss, scssBlocks, js, blocksFiles, gulp.parallel(browserSyncInit, watch));
-exports.cb = gulp.series(blocksFiles);
