@@ -1,0 +1,201 @@
+@import "variables";
+
+/* =WordPress Core
+-------------------------------------------------------------- */
+.alignnone {
+	margin: 5px 20px 20px 0;
+}
+
+.aligncenter,
+div.aligncenter {
+	display: block;
+	margin: 5px auto 5px auto;
+}
+
+.alignright {
+	float:right;
+	margin: 5px 0 20px 20px;
+}
+
+.alignleft {
+	float: left;
+	margin: 5px 20px 20px 0;
+}
+
+a {
+	img {
+		&.alignright {
+			float: right;
+			margin: 5px 0 20px 20px;
+		}
+
+		&.alignnone {
+			margin: 5px 20px 20px 0;
+		}
+
+		&.alignleft {
+			float: left;
+			margin: 5px 20px 20px 0;
+		}
+
+		&.aligncenter {
+			display: block;
+			margin-left: auto;
+			margin-right: auto
+		}
+	}
+}
+
+.wp-caption {
+	background: #fff;
+	border: 1px solid #fff;
+	max-width: 96%; /* Image does not overflow the content area */
+	padding: 5px 3px 10px;
+	text-align: left;
+
+	&.alignnone {
+		margin: 5px 20px 20px 0;
+	}
+
+	&.alignleft {
+		margin: 5px 20px 20px 0;
+	}
+
+	&.alignright {
+		margin: 5px 0 20px 20px;
+	}
+
+	img {
+		border: 0 none;
+		height: auto;
+		margin: 0;
+		max-width: 98.5%;
+		padding: 0;
+		width: auto;
+	}
+
+	p.wp-caption-text {
+		font-size: 12px;
+		line-height: 17px;
+		margin: 10px 0 0;
+		padding: 0 4px 5px;
+	}
+}
+
+/* Text meant only for screen readers. */
+.screen-reader-text {
+	clip: rect(1px, 1px, 1px, 1px);
+	position: absolute !important;
+	height: 1px;
+	width: 1px;
+	overflow: hidden;
+
+	&:focus {
+		background-color: #fff;
+		border-radius: 3px;
+		box-shadow: 0 0 2px 2px rgba(#000, 0.6);
+		clip: auto !important;
+		color: #21759b;
+		display: block;
+		font-size: _rem(14);
+		font-weight: bold;
+		height: auto;
+		left: 5px;
+		line-height: normal;
+		padding: 15px 23px 14px;
+		text-decoration: none;
+		top: 5px;
+		width: auto;
+		z-index: 100000; /* Above WP toolbar. */
+	}
+}
+
+/* WordPress Gallery
+------------------------------------------ */
+
+.gallery {
+	margin-left: -0.5em;
+	margin-right: -0.5em;
+
+	&:after {
+		display: table;
+		content: "";
+		clear: both;
+	}
+
+	&-item {
+		margin: 0;
+		float: left;
+		padding: 0.5em;
+
+		img {
+			width: 100%;
+		}
+	}
+
+	&-columns-1 {
+		.gallery-item {
+			width: 100%;
+			float: none;
+		}
+	}
+
+	&-columns-2 {
+		.gallery-item {
+			width: 50%;
+		}
+	}
+
+	&-columns-3 {
+		.gallery-item {
+			width: 33.3333%;
+		}
+	}
+
+	&-columns-4 {
+		.gallery-item {
+			width: 25%;
+		}
+	}
+
+	&-columns-5 {
+		.gallery-item {
+			width: 20%;
+		}
+	}
+
+	&-columns-6 {
+		.gallery-item {
+			width: 16.6667%;
+		}
+	}
+
+	&-columns-7 {
+		.gallery-item {
+			width: 14.2857%;
+		}
+	}
+
+	&-columns-8 {
+		.gallery-item {
+			width: 12.5%;
+		}
+	}
+
+	&-columns-9 {
+		.gallery-item {
+			width: 11.1111%;
+		}
+	}
+
+	&-columns-2 .gallery-item:nth-child(2n+1),
+	&-columns-3 .gallery-item:nth-child(3n+1),
+	&-columns-4 .gallery-item:nth-child(4n+1),
+	&-columns-5 .gallery-item:nth-child(5n+1),
+	&-columns-6 .gallery-item:nth-child(6n+1),
+	&-columns-7 .gallery-item:nth-child(7n+1),
+	&-columns-8 .gallery-item:nth-child(8n+1),
+	&-columns-9 .gallery-item:nth-child(9n+1) {
+		clear: left;
+	}
+}

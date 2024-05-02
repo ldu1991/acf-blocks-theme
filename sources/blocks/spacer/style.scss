@@ -1,0 +1,15 @@
+@import "../../scss/variables";
+
+.wp-custom-spacer {
+	width: 100%;
+	margin-block-start: 0 !important;
+	
+	+ * {
+		position: relative;
+		z-index: 11;
+	}
+	
+	&_is-preview {
+		background: repeating-linear-gradient(-45deg, #e5e5e5, #e5e5e5 15px, #fff 0, #fff 30px);
+	}
+}

@@ -1,0 +1,10 @@
+@import "variables";
+
+.editor-post-title {
+    padding: 0 30px;
+    margin-bottom: 0;
+    margin-block-end: 0 !important;
+    font-size: _rem(42);
+}
+
+@import "style";
