@@ -280,7 +280,9 @@ function browserSyncInit(cb) {
     gulp.watch([
         '../**/*.php',
         '../assets/css/**/*.css',
-        '../assets/js/**/*.js'
+        '../blocks/**/*.css',
+        '../assets/js/**/*.js',
+        '../blocks/**/*.js'
     ], {cwd: './'})
         .on('change', function (path, stats) {
             browserSync.reload();
