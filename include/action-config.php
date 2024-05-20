@@ -49,21 +49,10 @@ function set_admin_styles_scripts()
 function set_styles_scripts()
 {
     /* *** STYLES *** */
-    get_google_fonts();
     wp_enqueue_style(B_PREFIX . '-style', B_STYLE_URL . '/assets/css/style.css', array());
 
     /* *** SCRIPTS *** */
     wp_enqueue_script(B_PREFIX . '-script', B_TEMP_URL . '/assets/js/script.js', array('jquery'), wp_get_theme()->get('Version'), true);
-
-    /* *** LOCAL SCRIPTS *** */
-    wp_localize_script(B_PREFIX . '-script', 'wp_ajax',
-        array(
-            'url' => admin_url('admin-ajax.php'),
-            'nonce' => wp_create_nonce('wpajax-noncecode'),
-            'url_theme' => B_TEMP_URL,
-            'prefix' => B_PREFIX
-        )
-    );
 }
 
 
@@ -99,14 +88,12 @@ function add_theme_supports()
     ));
 
     // Add image sizes.
-    add_image_size('thumbnail-once', 200, 200, true);
+    //add_image_size('thumbnail-once', 200, 200, true);
 
     // Editor styles.
     add_theme_support('editor-styles');
 
-    $editor_style = array('assets/css/style-editor.css');
-    if (!empty(get_google_fonts())) $editor_style[] = get_google_fonts(true);
-    add_editor_style($editor_style);
+    add_editor_style('assets/css/style-editor.css');
 }
 
 /**
@@ -129,42 +116,3 @@ function color_palettes_tiny_mce($init)
 }
 
 add_filter('tiny_mce_before_init', 'color_palettes_tiny_mce');
-
-
-/**
- * @param bool $return_url
- * @return string|void|null
- */
-function get_google_fonts(bool $return_url = false)
-{
-
-    $global_styles = WP_Theme_JSON_Resolver::get_merged_data()->get_settings();
-
-    if (empty($global_styles['typography']['fontFamilies'])) {
-        return '';
-    }
-
-    $theme_fonts = !empty($global_styles['typography']['fontFamilies']['theme']) ? $global_styles['typography']['fontFamilies']['theme'] : array();
-
-    if (!$theme_fonts) {
-        return '';
-    }
-
-    $font_vars = array();
-
-    foreach ($theme_fonts as $font) {
-        if (!empty($font['google'])) {
-            $font_vars[] = $font['google'];
-        }
-    }
-
-    if (!$font_vars) {
-        return '';
-    }
-
-    if (!empty($return_url)) {
-        return esc_url_raw('https://fonts.googleapis.com/css2?' . implode('&', $font_vars) . '&display=swap');
-    } else {
-        wp_enqueue_style(B_PREFIX . '-google-fonts', 'https://fonts.googleapis.com/css2?' . implode('&', $font_vars) . '&display=swap', array(), null);
-    }
-}

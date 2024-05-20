@@ -39,8 +39,15 @@ function get_section_options(string $general_class = '', array $block = array(),
 
     $result = array();
 
-    if (!empty($block['anchor'])) {
-        $result['anchor'] = 'id="' . esc_attr( $block['anchor'] ) . '" ';
+    if(!empty($block['anchor'])) {
+        $result['id_attr'] = 'id="' . esc_attr($block['anchor']) . '" ';
+        $result['id'] = $block['anchor'];
+    } elseif (!empty($block['id'])) {
+        $result['id_attr'] = 'id="' . esc_attr($block['id']) . '" ';
+        $result['id'] = $block['id'];
+    } else {
+        $result['id_attr'] = '';
+        $result['id'] = '';
     }
 
     $result['class'] = array();
@@ -51,6 +58,9 @@ function get_section_options(string $general_class = '', array $block = array(),
     if (!empty($block['align'])) $result['class'][] = 'align-' . $block['align'];
 
     if (!empty($is_preview)) $result['class'][] = $general_class . '_is-preview';
+
+    $hp_blocks_background = get_field('hp_blocks_background') ?: 'hp-bg-brand-black';
+    $result['class'][] = $hp_blocks_background;
 
     $result['class'][] = B_PREFIX . '-section-element';
 
@@ -65,7 +75,7 @@ function get_section_options(string $general_class = '', array $block = array(),
 function has_preview_screenshot(array $block = array(), string $src = ''): bool
 {
     $screenshot = get_field('screenshot');
-    $filename = pathinfo($block['render_template'])['filename'];
+    $filename = str_replace('acf/', '', $block['name']);
     $screenshot_src = !empty($src) ? $src : '/assets/img/screenshots/' . $filename . '.jpg';
 
     if (!empty($screenshot) && file_exists(B_TEMP_PATH . $screenshot_src)) {

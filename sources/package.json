@@ -23,7 +23,7 @@
         "browser-sync": "latest",
         "clean-webpack-plugin": "latest",
         "fs": "latest",
-        "glob": "^10.3.12",
+        "glob": "latest",
         "gulp": "latest",
         "gulp-autoprefixer": "^8.0.0",
         "gulp-changed-in-place": "latest",

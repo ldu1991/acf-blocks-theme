@@ -57,14 +57,18 @@ export const videoResize = (elements, className) => {
  * @param fn
  */
 export const renderBlock = (type = '', fn) => {
-    if (window.acf) {
-        let blockElement = el => {
-            let element = isjQuery(el).querySelector('.' + wp_ajax.prefix + '-' + type)
-            return !!element ? element : isjQuery(el)
-        }
-        window.acf.addAction('render_block_preview/type=' + type, el => fn(blockElement(el)))
+    if(typeof wp !== 'undefined') {
+        document.addEventListener('DOMContentLoaded', () => {
+            if (typeof acf !== 'undefined') {
+                let blockElement = el => {
+                    let element = isjQuery(el).querySelector('.' + wp_ajax.prefix + '-' + type)
+                    return !!element ? element : isjQuery(el)
+                }
+                acf.addAction('render_block_preview/type=' + type, el => fn(blockElement(el), true))
+            }
+        })
     } else {
-        document.querySelectorAll('.' + wp_ajax.prefix + '-' + type).forEach(fn)
+        document.querySelectorAll('.' + wp_ajax.prefix + '-' + type).forEach(el => fn(el, false))
     }
 }
 
@@ -142,37 +146,4 @@ export const paginateLinks = (paginateWrap, total, current) => {
         paginateWrap.innerHTML = ''
     }
 }
-
-// ------------ Deleting placeholder focus ------------ //
-function focusFnInput(target) {
-    if (target.getAttribute('placeholder') !== null) {
-        target.setAttribute('data-placeholder', target.getAttribute('placeholder'))
-        target.setAttribute('placeholder', '')
-    }
-}
-
-document.addEventListener('focus', function (event) {
-    for (let target = event.target; target && target !== this; target = target.parentNode) {
-        if (target.matches('input, textarea')) {
-            focusFnInput.call(this, target, event)
-            break;
-        }
-    }
-}, true);
-
-function blurFnInput(target) {
-    if (target.getAttribute('data-placeholder') !== null) {
-        target.setAttribute('placeholder', target.getAttribute('data-placeholder'))
-    }
-}
-
-document.addEventListener('blur', function (event) {
-    for (let target = event.target; target && target !== this; target = target.parentNode) {
-        if (target.matches('input, textarea')) {
-            blurFnInput.call(this, target, event)
-            break;
-        }
-    }
-}, true);
-// ---------- End Deleting placeholder focus ---------- //
 
