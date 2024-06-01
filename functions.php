@@ -17,13 +17,6 @@ if (!defined('B_STYLE_PATH')) define('B_STYLE_PATH', get_stylesheet_directory())
 if (!defined('B_STYLE_URL')) define('B_STYLE_URL', get_stylesheet_directory_uri());
 
 
-/**
- * Include
- */
-include_once('include/helper-functions.php');
-include_once('include/action-config.php');
-
-
 function add_block_category($categories, $post)
 {
     return array_merge(
@@ -49,37 +42,5 @@ function register_acf_blocks()
 
 add_action('init', 'register_acf_blocks');
 
-
-function set_library()
-{
-    $style_library = array(
-        //'swiper' => B_STYLE_URL . '/assets/css/lib/swiper.css'
-    );
-
-    $script_library = array(
-        //'swiper' => B_TEMP_URL . '/assets/lib/swiper-bundle.min.js'
-    );
-
-    if(!empty($style_library)) {
-        foreach ($style_library as $handle => $src) {
-            wp_register_style($handle, $src);
-        }
-    }
-
-    if(!empty($script_library)) {
-        foreach ($script_library as $handle => $src) {
-            wp_register_script($handle, $src, array('jquery'), wp_get_theme()->get('Version'));
-        }
-    }
-
-    /* *** LOCAL SCRIPTS *** */
-    wp_localize_script('jquery', 'wp_ajax',
-        array(
-            'url' => admin_url('admin-ajax.php'),
-            'nonce' => wp_create_nonce('wpajax-noncecode'),
-            'prefix' => B_PREFIX
-        )
-    );
-}
-add_action( 'enqueue_block_editor_assets', 'set_library' );
-add_action('wp_enqueue_scripts', 'set_library');
+include_once('include/helper-functions.php');
+include_once('include/action-config.php');

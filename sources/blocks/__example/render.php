@@ -5,7 +5,6 @@
  * $content (string) The block inner HTML (empty).
  * $is_preview (boolean) True during backend preview render.
  * $context (array) The context provided to the block by the post or its parent block.
- * $attr['id'] (string) The block ID
  */
 
 $general_class = '__class_block__';

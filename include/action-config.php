@@ -6,7 +6,9 @@ if (!defined('ABSPATH')) {
 }
 
 /* Action */
-add_action('admin_enqueue_scripts', 'set_admin_styles_scripts');
+add_action('admin_enqueue_scripts', 'set_acf_color_palette');
+add_action('enqueue_block_editor_assets', 'set_modules');
+add_action('wp_enqueue_scripts', 'set_modules');
 add_action('wp_enqueue_scripts', 'set_styles_scripts');
 add_action('after_setup_theme', 'add_theme_supports');
 
@@ -31,7 +33,7 @@ add_action('admin_head', 'custom_inline_menu_styles');
 /**
  * Connection admin styles/scripts
  */
-function set_admin_styles_scripts()
+function set_acf_color_palette()
 {
     $theme_json = WP_Theme_JSON_Resolver::get_merged_data()->get_settings();
     $color_palettes = '';
@@ -43,13 +45,45 @@ function set_admin_styles_scripts()
 }
 
 
+function set_modules()
+{
+    $style_library = array(
+        //'swiper' => B_STYLE_URL . '/assets/css/lib/swiper.css'
+    );
+
+    $script_library = array(
+        //'swiper' => B_TEMP_URL . '/assets/lib/swiper-bundle.min.js'
+    );
+
+    if (!empty($style_library)) {
+        foreach ($style_library as $handle => $src) {
+            wp_register_style($handle, $src, array(), wp_get_theme()->get('Version'));
+        }
+    }
+
+    if (!empty($script_library)) {
+        foreach ($script_library as $handle => $src) {
+            wp_register_script($handle, $src, array('jquery'), wp_get_theme()->get('Version'));
+        }
+    }
+
+    /* *** LOCAL SCRIPTS *** */
+    wp_localize_script('jquery', 'wp_ajax',
+        array(
+            'url' => admin_url('admin-ajax.php'),
+            'nonce' => wp_create_nonce('wpajax-noncecode'),
+            'prefix' => B_PREFIX
+        )
+    );
+}
+
 /**
  * Connection styles/scripts
  */
 function set_styles_scripts()
 {
     /* *** STYLES *** */
-    wp_enqueue_style(B_PREFIX . '-style', B_STYLE_URL . '/assets/css/style.css', array());
+    wp_enqueue_style(B_PREFIX . '-style', B_STYLE_URL . '/assets/css/style.css', array(), wp_get_theme()->get('Version'));
 
     /* *** SCRIPTS *** */
     wp_enqueue_script(B_PREFIX . '-script', B_TEMP_URL . '/assets/js/script.js', array('jquery'), wp_get_theme()->get('Version'), true);

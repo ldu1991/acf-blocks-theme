@@ -1,7 +1,10 @@
 {
     "name": "acf/example",
     "title": "__example",
-    "style": [
+    "editorStyle": [
+        "file:./style.css"
+    ],
+    "viewStyle": [
         "file:./style.css"
     ],
     "editorScript": [
