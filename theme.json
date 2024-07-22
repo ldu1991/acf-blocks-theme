@@ -17,6 +17,7 @@
             "customGradient": true,
             "defaultGradients": false,
             "defaultPalette": false,
+            "defaultDuotone": false,
             "duotone": [],
             "gradients": [
                 {
@@ -25,7 +26,6 @@
                     "name": "Red Linear"
                 }
             ],
-            "link": true,
             "palette": [
                 {
                     "slug": "white",
@@ -48,7 +48,10 @@
                     "name": "Blue"
                 }
             ],
-            "text": true
+            "link": true,
+            "text": true,
+            "button": true,
+            "heading": true
         },
         "custom": {
             "prefix": "DEMO"
@@ -58,9 +61,13 @@
             "wideSize": "min(100% - clamp(1.875rem, 1.875rem + ((1vw - 0.3rem) * 33.2031), 12.5rem), 1200px)"
         },
         "spacing": {
+            "spacingScale": {
+                "steps": 1
+            },
             "blockGap": true,
             "margin": true,
             "padding": true,
+            "customSpacingSize": true,
             "units": [
                 "%",
                 "px",
@@ -71,9 +78,9 @@
             ]
         },
         "typography": {
-            "fluid": false,
-            "customFontSize": true,
-            "dropCap": true,
+            "lineHeight": true,
+            "textColumns": true,
+            "writingMode": true,
             "fontFamilies": [
                 {
                     "fontFamily": "'Roboto Condensed'",
@@ -139,13 +146,7 @@
                     "size": "clamp(1.5rem, 1.5rem + ((1vw - 0.36rem) * 0.2427), 1.625rem)",
                     "slug": "26"
                 }
-            ],
-            "fontStyle": true,
-            "fontWeight": true,
-            "letterSpacing": true,
-            "lineHeight": true,
-            "textDecoration": true,
-            "textTransform": true
+            ]
         },
         "blocks": {}
     },
@@ -174,7 +175,7 @@
             "text": "var(--wp--preset--color--black)"
         },
         "typography": {
-            "fontFamily": "var(--wp--preset--font-family--roboto-condensed)",
+            "fontFamily": "var(--wp--preset--font-family--playwrite-cu)",
             "fontSize": "1rem",
             "lineHeight": "1.5",
             "fontWeight": "400"
