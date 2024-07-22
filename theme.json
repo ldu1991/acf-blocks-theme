@@ -21,31 +21,21 @@
             "duotone": [],
             "gradients": [
                 {
+                    "name": "Red Linear",
                     "slug": "red-linear",
-                    "gradient": "linear-gradient(90deg, #E10303 9.49%, #C70202 100%)",
-                    "name": "Red Linear"
+                    "gradient": "linear-gradient(90deg, #E10303 9.49%, #C70202 100%)"
                 }
             ],
             "palette": [
                 {
+                    "name": "White",
                     "slug": "white",
-                    "color": "#FFFFFF",
-                    "name": "White"
+                    "color": "#FFFFFF"
                 },
                 {
+                    "name": "Black",
                     "slug": "black",
-                    "color": "#000000",
-                    "name": "Black"
-                },
-                {
-                    "slug": "red",
-                    "color": "#ff0000",
-                    "name": "Red"
-                },
-                {
-                    "slug": "Blue",
-                    "color": "#00209b",
-                    "name": "Blue"
+                    "color": "#000000"
                 }
             ],
             "link": true,
