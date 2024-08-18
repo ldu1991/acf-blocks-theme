@@ -44,3 +44,16 @@ add_action('init', 'register_acf_blocks');
 
 include_once('include/helper-functions.php');
 include_once('include/action-config.php');
+
+if (class_exists('acf')) {
+    include_once('acf/menu-item-depth.php');
+}
+
+function include_field_types()
+{
+    if (class_exists('acf')) {
+        include_once('acf/field-image-selector.php');
+    }
+}
+
+add_action('acf/include_field_types', 'include_field_types');

@@ -9,6 +9,11 @@
     font-size: _rem(42);
 }
 
+[class*=wp-block-acf-] {
+    width: 100% !important;
+    max-width: none !important;
+}
+
 // Utilities
 @import "reboot";
 @import "general";
