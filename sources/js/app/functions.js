@@ -57,11 +57,11 @@ export const videoResize = (elements, className) => {
  * @param fn
  */
 export const renderBlock = (type = '', fn) => {
-    if (typeof wp !== 'undefined' &&
-        typeof wp.data !== 'undefined' &&
-        typeof wp.data.select('core/editor') !== 'undefined') {
-        document.addEventListener('DOMContentLoaded', () => {
-            if (typeof acf !== 'undefined') {
+    if (typeof wp !== 'undefined' && typeof wp.domReady !== 'undefined') {
+        wp.domReady(() => {
+            if (typeof wp.data !== 'undefined' &&
+                typeof wp.data.select('core/editor') !== 'undefined' &&
+                typeof acf !== 'undefined') {
                 let blockElement = el => {
                     let element = isjQuery(el).querySelector('.' + wp_ajax.prefix + '-' + type)
                     return !!element ? element : isjQuery(el)
