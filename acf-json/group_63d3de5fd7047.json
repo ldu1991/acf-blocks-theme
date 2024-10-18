@@ -7,7 +7,7 @@
             "label": "Filed",
             "name": "filed",
             "aria-label": "",
-            "type": "text",
+            "type": "radio",
             "instructions": "",
             "required": 0,
             "conditional_logic": 0,
@@ -16,11 +16,18 @@
                 "class": "",
                 "id": ""
             },
+            "choices": {
+                "1": "1",
+                "5": "5",
+                "6": "6"
+            },
             "default_value": "",
-            "maxlength": "",
-            "placeholder": "",
-            "prepend": "",
-            "append": ""
+            "return_format": "value",
+            "allow_null": 0,
+            "other_choice": 0,
+            "allow_in_bindings": 1,
+            "layout": "horizontal",
+            "save_other_choice": 0
         }
     ],
     "location": [
@@ -41,5 +48,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1723965104
+    "modified": 1726053166
 }

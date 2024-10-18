@@ -1,23 +1,24 @@
 'use strict';
 
-const browserSync   = require('browser-sync').create(),
-    fs              = require('fs'),
-    webpack         = require('webpack-stream'),
-    gulp            = require('gulp'),
-    sass            = require('gulp-sass')(require('sass')),
-    plumber         = require('gulp-plumber'),
-    gulpIf          = require('gulp-if'),
-    insert          = require('gulp-insert'),
-    sourcemaps      = require('gulp-sourcemaps'),
-    autoprefixer    = require('gulp-autoprefixer'),
-    changedInPlace  = require('gulp-changed-in-place'),
-    csso            = require('gulp-csso'),
-    webpackConfig = require('./webpack.config.js');
+const browserSync    = require('browser-sync').create(),
+      fs             = require('fs'),
+      webpack        = require('webpack-stream'),
+      gulp           = require('gulp'),
+      sass           = require('gulp-sass')(require('sass')),
+      plumber        = require('gulp-plumber'),
+      gulpIf         = require('gulp-if'),
+      insert         = require('gulp-insert'),
+      sourcemaps     = require('gulp-sourcemaps'),
+      autoprefixer   = require('gulp-autoprefixer'),
+      changedInPlace = require('gulp-changed-in-place'),
+      csso           = require('gulp-csso'),
+      webpackConfig  = require('./webpack.config.js');
 
 // https://sass-lang.com/documentation/breaking-changes/slash-div
 
 /* Paths and variables */
 let domain = 'test-template';
+
 /* End Paths and variables */
 
 function onError(e) {
@@ -26,7 +27,7 @@ function onError(e) {
 }
 
 /* CSS */
-const themeData = JSON.parse(fs.readFileSync('../theme.json'));
+const themeData          = JSON.parse(fs.readFileSync('../theme.json'));
 let style_editor_default = `body .is-layout-flow {
     > * + * {
         margin-block-start: 0;
@@ -61,12 +62,12 @@ let style_editor_default = `body .is-layout-flow {
 // Generate Heading
 let elements = {
     'heading': '.h1, .h2, .h3, .h4, .h5, .h6',
-    'h1': '.h1',
-    'h2': '.h2',
-    'h3': '.h3',
-    'h4': '.h4',
-    'h5': '.h5',
-    'h6': '.h6'
+    'h1':      '.h1',
+    'h2':      '.h2',
+    'h3':      '.h3',
+    'h4':      '.h4',
+    'h5':      '.h5',
+    'h6':      '.h6'
 }
 
 function generateSpacing(json, prefix = "") {
@@ -93,7 +94,7 @@ function generateTypography(json) {
     for (const key in json) {
         const value = json[key];
         if (value) {
-            if(key === 'textColumns') {
+            if (key === 'textColumns') {
                 css += `column-count: ${value};`;
             } else {
                 css += `${key.replace(/([A-Z])/g, "-$1").toLowerCase()}: ${value};`;
@@ -110,11 +111,11 @@ function generateColor(json) {
     for (const key in json) {
         const value = json[key];
         if (value !== "") {
-            if(key === 'gradient') {
+            if (key === 'gradient') {
                 css += 'background:' + value + ';'
-            } else if(key === 'background') {
+            } else if (key === 'background') {
                 css += 'background-color:' + value + ';'
-            } else if(key === 'text') {
+            } else if (key === 'text') {
                 css += 'color:' + value + ';'
             }
         }
@@ -132,7 +133,7 @@ function generateBorder(json, prefix = "") {
         if (typeof value === "object") {
             css += generateBorder(value, `${prefix}${key}-`);
         } else if (value) {
-            const cssProperty = `${prefix}${key.replace(/([A-Z])/g, "-$1").toLowerCase()}`;
+            const cssProperty  = `${prefix}${key.replace(/([A-Z])/g, "-$1").toLowerCase()}`;
             const propertyName = `border-${cssProperty}`;
             css += `${propertyName}: ${value};\n`;
         }
@@ -171,7 +172,7 @@ let additional_header_classes = ''
 for (let elementsKey in elements) {
     let elementValue = themeData.styles.elements[elementsKey]
 
-    if(elementValue !== undefined) {
+    if (elementValue !== undefined) {
         additional_header_classes += elements[elementsKey] + '{'
         for (let elementKey in elementValue) {
 
@@ -195,6 +196,7 @@ for (let elementsKey in elements) {
         additional_header_classes += '}'
     }
 }
+
 // End Generate Heading
 
 function scss(cb) {
@@ -211,6 +213,7 @@ function scss(cb) {
         .pipe(gulp.dest('../assets/css'));
     cb();
 }
+
 function scssRelease(cb) {
     gulp.src('./scss/**/[^_]*.scss', {allowEmpty: true})
         .pipe(plumber({errorHandler: onError}))
@@ -236,6 +239,7 @@ function scssBlocks(cb) {
         .pipe(gulp.dest('../blocks'));
     cb();
 }
+
 function scssBlocksRelease(cb) {
     gulp.src(['./blocks/**/[^_]*.scss', '!./blocks/__example/**'], {allowEmpty: true})
         .pipe(plumber({errorHandler: onError}))
@@ -246,6 +250,7 @@ function scssBlocksRelease(cb) {
         .pipe(gulp.dest('../blocks'));
     cb();
 }
+
 /* End CSS */
 
 
@@ -253,9 +258,11 @@ function scssBlocksRelease(cb) {
 function js() {
     return webpack(webpackConfig(false)).pipe(gulp.dest('../assets/js'));
 }
+
 function jsRelease() {
     return webpack(webpackConfig(true)).pipe(gulp.dest('../assets/js'));
 }
+
 /* End JS */
 
 /* Blocks */
@@ -268,13 +275,14 @@ function blocksFiles(cb) {
         .pipe(gulp.dest('../blocks'));
     cb();
 }
+
 /* End Blocks */
 
 function browserSyncInit(cb) {
     browserSync.init({
-        proxy: domain,
+        proxy:  domain,
         notify: false,
-        port: 9000
+        port:   9000
     })
 
     gulp.watch([
