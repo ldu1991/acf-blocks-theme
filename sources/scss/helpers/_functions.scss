@@ -1,11 +1,11 @@
 @use "sass:math";
 
 @function _em($pixels, $context: 16) {
-    @if (unitless($pixels)) {
+    @if (math.is-unitless($pixels)) {
         $pixels: $pixels * 1px;
     }
     
-    @if (unitless($context)) {
+    @if (math.is-unitless($context)) {
         $context: $context * 1px;
     }
     
@@ -13,11 +13,11 @@
 }
 
 @function _rem($pixels, $context: 16) {
-    @if (unitless($pixels)) {
+    @if (math.is-unitless($pixels)) {
         $pixels: $pixels * 1px;
     }
     
-    @if (unitless($context)) {
+    @if (math.is-unitless($context)) {
         $context: $context * 1px;
     }
     
