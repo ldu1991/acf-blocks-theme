@@ -1,6 +1,6 @@
-// Variables
-@import "variables";
-@import "extend";
+@use "sass:meta";
+@use "variables";
+@use "extend";
 
 .editor-post-title {
     padding: 0 30px;
@@ -15,5 +15,5 @@
 }
 
 // Utilities
-@import "reboot";
-@import "general";
+@include meta.load-css("reboot");
+@include meta.load-css("general");

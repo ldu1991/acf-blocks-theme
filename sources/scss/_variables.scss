@@ -1,5 +1,5 @@
-@import "helpers/functions";
-@import "helpers/mixins";
+@forward "helpers/functions";
+@forward "helpers/mixins";
 
 
 $content-size: var(--wp--style--global--content-size);

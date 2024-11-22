@@ -1,4 +1,4 @@
-@import "../../scss/variables";
+@use "../../scss/variables" as *;
 
 .wp-block-acf-spacer {
 	width: 100% !important;

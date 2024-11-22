@@ -1,14 +1,14 @@
 // Variables
-@import "variables";
-@import "extend";
+@use "variables";
+@use "extend";
 
 // Utilities
-@import "reboot";
-@import "header";
-@import "main";
-@import "general";
-@import "footer";
+@use "reboot";
+@use "header";
+@use "main";
+@use "general";
+@use "footer";
 
 
 // Elements
-//@import "elements/__example-file__";
+//@use "elements/__example-file__";
