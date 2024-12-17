@@ -42,7 +42,7 @@
     }
 }
 
-@function math-clamp($min-size, $max-size, $min_viewport: 576, $max_viewport: 1400, $unit: 'rem') {
+@function math-clamp($min-size, $max-size, $min_viewport: 768, $max_viewport: 1400, $unit: 'rem') {
     $view_port_width_offset: _unit(math.div($min_viewport, 100), $unit);
     $size_difference: $max-size - $min-size;
     $viewport_difference: $max_viewport - $min_viewport;
@@ -64,7 +64,7 @@
 }
 
 // Support for older browsers
-@function min-max($min-size, $max-size, $min_viewport: 576, $max_viewport: 1400, $unit: 'rem') {
+@function min-max($min-size, $max-size, $min_viewport: 768, $max_viewport: 1400, $unit: 'rem') {
     $view_port_width_offset: _unit(math.div($min_viewport, 100), $unit);
     $size_difference: $max-size - $min-size;
     $viewport_difference: $max_viewport - $min_viewport;

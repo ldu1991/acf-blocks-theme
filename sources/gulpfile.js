@@ -231,7 +231,7 @@ function scssBlocks(cb) {
     gulp.src(['./blocks/**/[^_]*.scss', '!./blocks/__example/**'], {allowEmpty: true})
         .pipe(plumber({errorHandler: onError}))
         .pipe(sourcemaps.init())
-        .pipe(sass.sync({includePaths: ['./blocks/'], silenceDeprecations: ['legacy-js-api']}))
+        .pipe(sass.sync({includePaths: ['./scss/'], silenceDeprecations: ['legacy-js-api']}))
         .pipe(autoprefixer())
         .pipe(changedInPlace({firstPass: true}))
         .pipe(csso())
@@ -243,7 +243,7 @@ function scssBlocks(cb) {
 function scssBlocksRelease(cb) {
     gulp.src(['./blocks/**/[^_]*.scss', '!./blocks/__example/**'], {allowEmpty: true})
         .pipe(plumber({errorHandler: onError}))
-        .pipe(sass.sync({includePaths: ['./blocks/'], silenceDeprecations: ['legacy-js-api']}))
+        .pipe(sass.sync({includePaths: ['./scss/'], silenceDeprecations: ['legacy-js-api']}))
         .pipe(autoprefixer())
         .pipe(changedInPlace({firstPass: true}))
         .pipe(csso())
