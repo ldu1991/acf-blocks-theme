@@ -1,0 +1,41 @@
+@use "../variables" as *;
+@use "../extend";
+
+.dmp-blog {
+    &__row {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-start;
+        gap: 32px 24px;
+        margin: 0 0 48px;
+
+        @media (min-width: 576px) {
+            gap: 48px 24px;
+            margin: 0 0 64px;
+        }
+
+        @media (min-width: 1440px) {
+            gap: 64px 48px;
+        }
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+
+    &__col {
+        width: 100%;
+
+        @media (min-width: 576px) {
+            width: calc(50% - 24px);
+        }
+
+        @media (min-width: 1440px) {
+            width: calc((100% / 3) - 32px);
+        }
+    }
+
+    &__col-100 {
+        flex: 0 0 100%;
+    }
+}

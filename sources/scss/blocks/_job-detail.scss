@@ -1,0 +1,67 @@
+@use "../variables" as *;
+@use "../extend";
+
+.dmp-job {
+    padding: 48px 0 80px;
+
+    @media (min-width: 576px) {
+        padding: 80px 0;
+    }
+
+    @media (min-width: 992px) {
+        padding: 96px 0 112px;
+    }
+
+    &__wrap {
+        width: 100%;
+        max-width: 768px;
+        margin: 0 auto;
+    }
+
+    &__content {
+        margin: 0 0 48px;
+    }
+
+    &__description {
+        margin: 0 0 32px;
+
+        p {
+            @extend %text-regular;
+            margin: 0 0 16px;
+
+            &:last-child {
+                margin-bottom: 0;
+            }
+        }
+    }
+
+    &__footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    &__ref {
+        @extend %text-small;
+        color: $text-secondary-color;
+    }
+
+    &__form {
+        margin: 0 0 48px;
+        padding: 32px 24px;
+        background-color: $white-main-color;
+        border-radius: 16px;
+        box-shadow: 0px 24px 48px -8px rgba(0, 0, 0, 0.18);
+
+        @media (min-width: 768px) {
+            padding: 48px;
+            box-shadow: 0px 24px 48px -12px rgba(0, 0, 0, 0.18);
+            margin: 0 0 64px;
+        }
+
+        h4 {
+            color: $brand-color;
+            margin: 0 0 34px;
+        }
+    }
+}

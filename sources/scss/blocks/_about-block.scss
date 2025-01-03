@@ -1,0 +1,84 @@
+@use "../variables" as *;
+@use "../extend";
+
+.dmp-about-block {
+    &__head {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0;
+        margin-bottom: 32px;
+
+        @media (min-width: 992px) {
+            flex-direction: row;
+            gap: 40px;
+            margin: 0 0 60px;
+        }
+
+        @media (min-width: 1200px) {
+            gap: 80px;
+            margin-bottom: 80px;
+        }
+
+
+        &-title {
+            flex-shrink: 0;
+            width: 100%;
+            @media (min-width: 992px) {
+                width: 468px;
+            }
+
+            h3 {
+                margin: 0;
+            }
+        }
+
+        &-description {
+            flex-grow: 1;
+
+            p {
+                @extend %text-regular;
+                margin: 0 0 16px;
+            }
+
+            a {
+                text-decoration: underline;
+                color: inherit;
+                transition: all 0.4s;
+
+                &:hover {
+                    color: $brand-color;
+                }
+            }
+        }
+    }
+
+    &__content {
+        img {
+            width: 100%;
+            max-width: 100%;
+            margin: 0 0 32px;
+            @media (min-width: 576px) {
+                margin: 0 0 48px;
+            }
+            @media (min-width: 992px) {
+                margin: 0 0 60px;
+            }
+
+            @media (min-width: 1200px) {
+                margin: 0 0 80px;
+            }
+        }
+
+        &-text {
+            width: 100%;
+            max-width: 764px;
+            margin: 0 auto;
+
+            p {
+                @extend %text-regular;
+                margin: 0 0 16px;
+            }
+        }
+    }
+}

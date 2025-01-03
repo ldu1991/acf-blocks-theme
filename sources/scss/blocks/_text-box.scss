@@ -1,0 +1,42 @@
+@use "../variables" as *;
+@use "../extend";
+
+.dmp-text-box {
+    $text-box: &;
+    
+    padding-top: 102px;
+    padding-bottom: 160px;
+    
+    &_out-image {
+        #{$text-box} {
+            &__container {
+                padding-top: 0;
+            }
+        }
+    }
+    
+    &__container {
+        max-width: min(100% - math-clamp(64, 128, 1200, 1400), rem(960));
+        margin-left: auto;
+        margin-right: auto;
+        border-radius: rem(16);
+        padding: math-clamp(32, 96);
+        box-shadow: 0 rem(24) rem(48) rem(-12) rgba(0, 0, 0, .18);
+        background-color: $white-main-color;
+    }
+    
+    &__img {
+        margin-bottom: rem(25);
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+        
+        img {
+            width: math-clamp(200, 300);
+            height: math-clamp(calc((205/300) * 200), 205);
+            object-position: center;
+            object-fit: contain;
+            margin-top: math-clamp(calc((((205/300) * 200) / 2) * -1), -102.5);
+        }
+    }
+}

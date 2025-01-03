@@ -1,0 +1,112 @@
+@use "../variables" as *;
+@use "../extend";
+
+.dmp-text-image-block {
+    $block: &;
+    padding: 32px 0;
+    
+    @media (min-width: 576px) {
+        padding: 60px 0;
+    }
+    
+    @media (min-width: 992px) {
+        padding: 112px 0;
+    }
+    
+    + .dmp-text-image-block {
+        padding-top: 0;
+    }
+    
+    &_left-image {
+        #{$block}__row {
+            flex-direction: column;
+            
+            @media (min-width: 768px) {
+                flex-direction: row-reverse;
+            }
+        }
+    }
+    
+    &__row {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 32px;
+        
+        @media (min-width: 768px) {
+            flex-direction: row;
+            gap: 40px;
+        }
+        
+        @media (min-width: 1400px) {
+            gap: 80px;
+        }
+    }
+    
+    &__col {
+        width: 100%;
+        flex: 0 0 100%;
+        
+        @media (min-width: 768px) {
+            flex: 0 0 calc(50% - 20px);
+        }
+        
+        @media (min-width: 1400px) {
+            flex: 0 0 calc(50% - 40px);
+        }
+    }
+    
+    &__content {
+        h3 {
+            margin: 0 0 24px;
+        }
+        
+        p {
+            @extend %text-regular;
+            letter-spacing: 0.006rem;
+            margin: 0 0 16px;
+            
+            @media (min-width: 576px) {
+                font-size: 18px;
+            }
+            
+            &:last-child {
+                margin-bottom: 0;
+            }
+        }
+        
+        a {
+            text-decoration: underline;
+            color: $black-main-color;
+            transition: all 0.4s;
+            
+            &:hover {
+                color: $brand-color;
+            }
+        }
+    }
+    
+    &__media {
+        width: 100%;
+        
+        @media (min-width: 768px) {
+            max-height: rem(700);
+        }
+        
+        img {
+            object-position: center;
+            object-fit: cover;
+            
+            @media (min-width: 768px) {
+                width: 100%;
+                height: 100%;
+                max-height: inherit;
+                min-height: inherit;
+            }
+            
+            @media (max-width: 767px) {
+                aspect-ratio: 326/285;
+            }
+        }
+    }
+}

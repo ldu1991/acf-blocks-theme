@@ -1,0 +1,102 @@
+@use "../variables" as *;
+@use "../extend";
+
+.dmp-callback {
+    $callback: &;
+
+    position: relative;
+    padding: 32px 0;
+
+    @media (min-width: 576px) {
+        padding: 80px 0;
+    }
+
+    @media (min-width: 992px) {
+        padding: 112px 0;
+    }
+
+    &__bg {
+        position: relative;
+        width: 100%;
+
+        @media (min-width: 992px) {
+            position: absolute;
+            height: 100%;
+            z-index: 1;
+            left: 0;
+            top: 0;
+        }
+
+
+        img {
+            @extend %image-cover;
+        }
+    }
+
+    &__wrap {
+        position: relative;
+        z-index: 2;
+    }
+
+    &__content {
+        width: 100%;
+        @media (min-width: 992px) {
+            width: calc(50% - 20px);
+        }
+        @media (min-width: 1400px) {
+            width: calc(50% - 40px);
+        }
+
+        h2 {
+            color: $brand-color;
+            margin: 0 0 24px;
+        }
+
+        p {
+            @extend %text-medium;
+            margin: 0 0 40px;
+
+            &:last-child {
+                margin-bottom: 0;
+            }
+        }
+    }
+
+    &_gray {
+        background: linear-gradient(to bottom, rgba(253, 253, 253, 1), rgba(112, 111, 111, 0.05));
+        padding-bottom: 0;
+        @media (min-width: 992px) {
+            padding-bottom: 112px;
+        }
+
+        #{$callback}__bg {
+            height: 251px;
+            @media (min-width: 992px) {
+                height: 100%;
+            }
+        }
+    }
+
+    &_blue {
+        background: linear-gradient(0deg, #D5E9EB, #D5E9EB),
+        linear-gradient(0deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2));
+        padding-bottom: 0;
+
+        @media (min-width: 992px) {
+            padding-bottom: 112px;
+        }
+
+        #{$callback}__bg {
+            height: 209px;
+            @media (min-width: 992px) {
+                height: 100%;
+            }
+        }
+    }
+
+    &_content-right {
+        #{$callback}__content {
+            margin-left: auto;
+        }
+    }
+}

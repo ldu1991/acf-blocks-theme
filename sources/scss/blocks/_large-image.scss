@@ -1,0 +1,23 @@
+@use "../variables" as *;
+@use "../extend";
+
+.dmp-large-image {
+    max-width: min(100% - math-clamp(64, 128, 1200, 1400), rem(1312));
+    margin-left: auto;
+    margin-right: auto;
+    padding: rem(32) 0;
+    
+    @media (min-width: 576px) {
+        padding: rem(80) 0;
+    }
+    @media (min-width: 992px) {
+        padding: rem(112) 0;
+    }
+    
+    img {
+        width: 100%;
+        aspect-ratio: 1312/738;
+        object-fit: cover;
+        object-position: center;
+    }
+}

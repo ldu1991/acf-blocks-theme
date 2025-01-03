@@ -7,12 +7,16 @@ if (!defined('ABSPATH')) {
 
 get_header();
 
-?>
+get_template_part('template-parts/blocks/hero');
 
-<?php while (have_posts()) : the_post();
+get_template_part('template-parts/blocks/secondary_hero');
 
-    the_content();
 
-endwhile; ?>
+if (have_rows('page_content')):
+    while (have_rows('page_content')) : the_row();
+        get_template_part('template-parts/blocks/' . get_row_layout());
+    endwhile;
+endif;
 
-<?php get_footer(); ?>
+
+get_footer();

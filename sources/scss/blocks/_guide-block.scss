@@ -1,0 +1,48 @@
+@use "../variables" as *;
+@use "../extend";
+
+.dmp-guide-block {
+    .dmp-block__head {
+        @media (min-width: 1200px) {
+            margin-bottom: 72px;
+        }
+    }
+
+    &__slider {
+        .swiper {
+            width: calc(100% + 30px);
+            margin-left: -15px;
+            padding: 0 15px;
+            position: relative;
+            padding-bottom: 80px;
+            @media (min-width: 992px) {
+                padding-bottom: 120px;
+            }
+
+            &-slide {
+                height: auto;
+                .dmp-testimonials-card {
+                    height: 100%;
+                }
+            }
+
+            .swiper-button-prev,
+            .swiper-button-next {
+                position: absolute;
+                bottom: 0;
+            }
+            .swiper-button-prev {
+                right: 78px;
+            }
+            .swiper-button-next {
+                right: 15px;
+            }
+
+            .swiper-pagination {
+                position: absolute;
+                left: 15px;
+                bottom: 20px;
+            }
+        }
+    }
+}

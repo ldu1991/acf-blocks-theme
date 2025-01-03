@@ -1,10 +1,27 @@
 @forward "helpers/functions";
 @forward "helpers/mixins";
 
-
-$content-size: var(--wp--style--global--content-size);
-$wide-size: var(--wp--style--global--wide-size);
+$font-family-poppins: "Poppins", serif;
+$font-family-Inter: "Inter", serif;
+$font-family-Roboto: "Roboto", serif;
 
 // Colors
-$white: var(--wp--preset--color--white); // #FFFFFF
-$black: var(--wp--preset--color--black); // #000000
+$white-main-color: #FFF;
+$black-main-color: #000000;
+$black-bg-color: #0E0B3D;
+
+$brand-color: #0655A2;
+$brand-lighter-color: #8EB6FF;
+$yellow-color: #F4C430;
+
+
+$text-grey-color: #666666;
+$text-secondary-color: #AAAAAA;
+$grey-color: #cccccc;
+$grey-lighter-color: #EEEEEE;
+$red-color: #E40B1C;
+
+$success-green-color: #027A48;
+$success-green-light-color: #ecfdf3;
+$error-red-color: #b42318;
+$error-red-light-color: #fef3f2;

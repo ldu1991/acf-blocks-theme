@@ -1,0 +1,31 @@
+@use "../variables" as *;
+@use "../extend";
+
+.dmp-related-services {
+    padding-top: 0;
+
+    .dmp-block__head-title {
+        margin: 0 0 48px;
+    }
+
+    &__row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 32px 24px;
+        @media (min-width: 1440px) {
+            gap: 48px;
+        }
+    }
+
+    &__col {
+        width: 100%;
+
+        @media (min-width: 576px) {
+            width: calc(50% - 24px);
+        }
+
+        @media (min-width: 1200px) {
+            width: calc((100% / 3) - 32px);
+        }
+    }
+}

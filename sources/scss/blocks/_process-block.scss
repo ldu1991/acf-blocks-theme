@@ -1,0 +1,41 @@
+@use "../variables" as *;
+@use "../extend";
+
+.dmp-process {
+    background-color: $brand-color;
+    &__row {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-start;
+        gap: 40px;
+
+        @media (min-width: 1200px) {
+            gap: 80px;
+        }
+    }
+
+    &__col {
+        flex: 0 0 100%;
+
+        @media (min-width: 992px) {
+            flex: 0 0 calc(50% - 20px);
+        }
+
+        @media (min-width: 1200px) {
+            flex: 0 0 calc(50% - 40px);
+        }
+    }
+
+    &__image {
+        img {
+            width: 100%;
+        }
+    }
+
+    .dmp-block__head-tile {
+        margin: 0 0 32px;
+        @media (min-width: 768px) {
+            margin: 0 0 56px;
+        }
+    }
+}

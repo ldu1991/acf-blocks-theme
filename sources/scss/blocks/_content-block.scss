@@ -1,0 +1,56 @@
+@use "../variables" as *;
+@use "../extend";
+
+.dmp-content-block {
+    padding: rem(32) 0;
+    font-size: math-clamp(16, 18);
+    
+    @media (min-width: 576px) {
+        padding: rem(80) 0;
+    }
+    @media (min-width: 992px) {
+        padding: rem(112) 0;
+    }
+    
+    &_grey-bg {
+        background-color: #f6f6f6;
+    }
+    
+    &__container {
+        max-width: min(100% - math-clamp(64, 128, 1200, 1400), rem(1312));
+        margin-left: auto;
+        margin-right: auto;
+        
+        > .dmp-btn {
+            margin-top: rem(40);
+        }
+    }
+    
+    &__title {
+        margin-bottom: math-clamp(30, 40);
+    }
+}
+
+
+.dmp-text-and-image {
+    display: flex;
+    flex-wrap: wrap;
+    gap: math-clamp(40, 80);
+    margin: math-clamp(20, 40) 0 rem(40);
+    
+    &__col {
+        flex: 0 0 100%;
+        max-width: 100%;
+        
+        @media (min-width: 1200px) {
+            flex: 0 0 calc(100% / 2 - math-clamp(20.01, 40.01));
+            max-width: calc(100% / 2 - math-clamp(20.01, 40.01));
+        }
+        
+        img {
+            align-self: 616/437;
+            object-position: center;
+            object-fit: cover;
+        }
+    }
+}

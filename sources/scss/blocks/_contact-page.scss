@@ -1,0 +1,113 @@
+@use "../variables" as *;
+@use "../extend";
+
+.dmp-contact-page {
+    padding: 32px 0;
+
+    @media (min-width: 576px) {
+        padding: 80px 0;
+    }
+
+    @media (min-width: 992px) {
+        padding: 112px 0;
+    }
+
+    &__info {
+        display: flex;
+        align-items: flex-start;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 32px;
+        margin-bottom: 48px;
+        @media (min-width: 576px) {
+            gap: 48px;
+            margin-bottom: 64px;
+        }
+
+        @media (min-width: 992px) {
+            margin-bottom: 112px;
+        }
+
+        &-col {
+            flex: 0 0 100%;
+            width: 100%;
+            @media (min-width: 576px) {
+                flex: 0 0 calc(50% - 24px);
+                width: fit-content;
+            }
+
+            @media (min-width: 992px) {
+                flex: 0 0 calc((100% / 3) - 32px);
+            }
+        }
+    }
+
+    &__card {
+        text-align: center;
+
+        &-icon {
+            width: 48px;
+            height: 48px;
+            margin: 0 auto 24px;
+        }
+
+        h4 {
+            padding: 0;
+            margin: 0 0 16px;
+        }
+
+        p {
+            @extend %text-regular;
+            margin: 0 0 24px;
+        }
+
+        a {
+            text-decoration: none;
+            transition: all 0.4s;
+            @extend %text-regular;
+            font-weight: 500;
+            color: $black-main-color;
+
+            @media (min-width: 768px) {
+                font-size: 20px;
+            }
+
+            &:hover {
+                text-decoration: none;
+                color: $brand-color;
+            }
+        }
+    }
+
+    &__form {
+        width: 100%;
+        max-width: 880px;
+        margin: 0 auto;
+        background-color: $white-main-color;
+        box-shadow: 0px 24px 48px -12px rgba(0, 0, 0, 0.18);
+        border-radius: 16px;
+        padding: 32px 24px;
+
+        @media (min-width: 768px) {
+            padding: 32px;
+        }
+
+        @media (min-width: 992px) {
+            padding: 56px;
+        }
+
+        &-title {
+            margin: 0 0 24px;
+
+            p {
+                @extend %text-medium;
+                font-weight: 700;
+                margin: 0;
+            }
+        }
+
+        .dmp-btn {
+            margin-top: 40px;
+        }
+    }
+}

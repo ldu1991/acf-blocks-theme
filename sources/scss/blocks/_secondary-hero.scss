@@ -1,0 +1,85 @@
+@use "../variables" as *;
+@use "../extend";
+
+.dmp-secondary-hero {
+    $secondary-hero: &;
+    
+    padding: math-clamp(60, 112) 0;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    position: relative;
+    
+    &:not(.dmp-secondary-hero_transparent) {
+        background-color: $brand-color;
+    }
+    
+    &:not(.dmp-secondary-hero_transparent):not(.dmp-secondary-hero_img) {
+        .rank-math-breadcrumb {
+            color: $brand-lighter-color;
+            
+            a {
+                color: $brand-lighter-color;
+            }
+            
+            .separator {
+                background-image: url(../img/separator-brand-lighter.svg);
+            }
+        }
+    }
+    
+    &_img {
+        &:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            background: linear-gradient(180deg, rgba(0, 0, 0, 0.00) 0%, rgba(0, 0, 0, 0.40) 100%), linear-gradient(0deg, rgba(0, 0, 0, 0.10) 0%, rgba(0, 0, 0, 0.10) 100%);
+        }
+    }
+    
+    &_filter {
+        padding: math-clamp(60, 112) 0 math-clamp(110, 156);
+    }
+    
+    &__container {
+        position: relative;
+        z-index: 3;
+        max-width: min(100% - math-clamp(64, 128, 1200, 1400), rem(1312));
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+        color: $white-main-color;
+    }
+    
+    .rank-math-breadcrumb {
+        margin-bottom: rem(16);
+        
+        > p {
+            justify-content: center;
+        }
+        
+        a {
+            color: $white-main-color;
+        }
+        
+        .separator {
+            background-image: url(../img/separator-white.svg);
+        }
+    }
+    
+    h1 {
+        padding-top: 0;
+        
+        &:not(:last-child) {
+            margin-bottom: rem(24);
+        }
+    }
+    
+    &__subtitle {
+        font-size: math-clamp(16, 18);
+    }
+}

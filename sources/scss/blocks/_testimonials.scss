@@ -1,0 +1,104 @@
+@use "../variables" as *;
+@use "../extend";
+
+.dmp-testimonials {
+    background: $brand-color;
+    position: relative;
+    padding: 32px 0;
+
+    @media (min-width: 576px) {
+        padding: 80px 0;
+    }
+
+    @media (min-width: 992px) {
+        padding: 112px 0;
+    }
+
+    &__bg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        z-index: 1;
+
+        img {
+            @extend %image-cover;
+            filter: grayscale(100%);
+        }
+
+        &:after {
+            content: '';
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(6, 85, 162, 0.7);
+        }
+    }
+
+    &__content {
+        position: relative;
+        z-index: 2;
+    }
+
+    &__head {
+        color: $white-main-color;
+        margin: 0 0 32px;
+        @media (min-width: 576px) {
+            margin: 0 0 48px;
+        }
+
+        @media (min-width: 992px) {
+            margin: 0 0 80px;
+        }
+
+        h2 {
+            color: $white-main-color;
+            margin: 0 0 16px;
+            @media (min-width: 576px) {
+                margin: 0 0 24px;
+            }
+        }
+
+        p {
+            @extend %text-medium;
+            margin: 0;
+        }
+    }
+
+    &__body {
+        .swiper {
+            position: relative;
+            padding-bottom: 80px;
+
+            &-slide {
+                height: auto;
+                .dmp-testimonials-card {
+                    height: 100%;
+                }
+            }
+
+            .swiper-button-prev,
+            .swiper-button-next {
+                position: absolute;
+                bottom: 0;
+            }
+            .swiper-button-prev {
+                right: 63px;
+            }
+            .swiper-button-next {
+                right: 0;
+            }
+
+            .swiper-pagination {
+                position: absolute;
+                left: 0;
+                bottom: 20px;
+            }
+        }
+    }
+}

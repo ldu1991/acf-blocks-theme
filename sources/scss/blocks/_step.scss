@@ -1,0 +1,136 @@
+@use "../variables" as *;
+@use "../extend";
+
+.dmp-step {
+    &__wrap {
+        width: 100%;
+        max-width: 768px;
+        margin: 0 auto;
+    }
+
+    &__head {
+        text-align: center;
+        margin: 0 0 32px;
+
+        @media (min-width: 576px) {
+            margin: 0 0 48px;
+        }
+        @media (min-width: 992px) {
+            margin: 0 0 80px;
+        }
+
+        h2 {
+            margin: 0 0 16px;
+            @media (min-width: 576px) {
+                margin: 0 0 24px;
+            }
+        }
+
+        p {
+            @extend %text-regular;
+            margin: 0 0 16px;
+
+            @media (min-width: 576px) {
+                font-size: 18px;
+            }
+
+            &:last-child {
+                margin-bottom: 0;
+            }
+        }
+    }
+
+    &__item {
+        $item: &;
+
+        display: flex;
+        align-items: flex-start;
+        gap: 16px;
+        margin-bottom: 16px;
+        min-height: 112px;
+        @media (min-width: 576px) {
+            gap: 24px;
+        }
+        @media (min-width: 992px) {
+            gap: 40px;
+        }
+
+        &:last-child {
+            margin-bottom: 0;
+            min-height: auto;
+
+            #{$item}-number {
+                &:after {
+                    display: none;
+                }
+            }
+        }
+
+        &-number {
+            align-self: stretch;
+            text-align: center;
+            width: 50px;
+            height: auto;
+            flex-shrink: 0;
+            color: $brand-color;
+            position: relative;
+
+            &:after {
+                content: '';
+                display: block;
+                position: absolute;
+                height: calc(100% - 54px);
+                width: 0;
+                top: auto;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                margin: 0 auto;
+                border-left: 2px solid $grey-lighter-color;
+                @media (min-width: 576px) {
+                    height: calc(100% - 64px);
+                }
+            }
+
+            h3 {
+                color: $brand-color;
+                margin: 0;
+            }
+        }
+
+        &-description {
+            flex-grow: 1;
+
+            h6 {
+                margin: 0 0 8px;
+            }
+
+            p {
+                @extend %text-regular;
+                margin: 0 0 8px;
+
+                &:last-child {
+                    margin-bottom: 0;
+                }
+            }
+        }
+
+        &_blue {
+            #{$item}-number {
+                h3 {
+                    color: $yellow-color;
+                }
+
+                &:after {
+                    border-color: $yellow-color
+                }
+            }
+
+            #{$item}-description {
+                h6, p {
+                    color: $white-main-color;
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,59 @@
+@use "../variables" as *;
+@use "../extend";
+
+.dmp-faq-block {
+    &__wrap {
+        width: 100%;
+        max-width: 768px;
+        margin: 0 auto;
+    }
+
+    &__head {
+        text-align: center;
+        margin: 0 0 48px;
+
+        @media (min-width: 992px) {
+            margin: 0 0 80px;
+        }
+
+        h2 {
+            margin: 0 0 16px;
+            @media (min-width: 576px) {
+                margin: 0 0 24px;
+            }
+        }
+
+        p {
+            @extend %text-medium;
+            margin: 0 0 16px;
+            &:last-child {
+                margin-bottom: 0;
+            }
+        }
+    }
+
+    &__question {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding-top: 48px;
+
+        @media (min-width: 992px) {
+            padding-top: 80px;
+        }
+
+        h4 {
+            margin: 0 0 16px;
+        }
+
+        p {
+            @extend %text-regular;
+            margin: 0 0 24px;
+
+            @media (min-width: 576px) {
+                font-size: 18px;
+            }
+        }
+    }
+}

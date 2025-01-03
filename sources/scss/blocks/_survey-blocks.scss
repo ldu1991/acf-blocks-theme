@@ -1,0 +1,75 @@
+@use "../variables" as *;
+@use "../extend";
+
+.dmp-survey-block {
+    &_gray {
+        background: rgba(246, 246, 246, 1);
+    }
+
+    &__text {
+        margin: 0 0 40px;
+
+        h2 {
+            margin: 0 0 40px;
+        }
+
+        img {
+            width: 100%;
+        }
+
+        p {
+            @extend %text-regular;
+            margin: 0 0 16px;
+
+            &:last-child {
+                margin-bottom: 0;
+            }
+
+            @media (min-width: 576px) {
+                font-size: 18px;
+            }
+        }
+
+        &-row {
+            display: flex;
+            align-items: flex-start;
+            flex-direction: column;
+            gap: 40px;
+            margin: 0 0 24px;
+
+            @media (min-width: 992px) {
+                flex-direction: row;
+                margin: 0 0 40px;
+            }
+
+            @media (min-width: 1400px) {
+                gap: 80px;
+            }
+        }
+
+        p + .dmp-survey-block__text-row {
+            margin-top: 20px;
+            @media (min-width: 992px) {
+                margin-top: 40px;
+            }
+        }
+
+        &-col {
+            flex: 0 0 100%;
+            width: 100%;
+
+            @media (min-width: 992px) {
+                width: auto;
+                flex: 0 0 calc(50% - 20px);
+            }
+
+            @media (min-width: 1400px) {
+                flex: 0 0 calc(50% - 40px);
+            }
+
+            img {
+                width: 100%;
+            }
+        }
+    }
+}

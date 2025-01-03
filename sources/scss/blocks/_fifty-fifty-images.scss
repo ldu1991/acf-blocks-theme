@@ -1,0 +1,36 @@
+@use "../variables" as *;
+@use "../extend";
+
+.dmp-fifty-fifty-images {
+    max-width: min(100% - math-clamp(64, 128, 1200, 1400), rem(1312));
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: rem(32);
+    padding: rem(32) 0;
+    
+    @media (min-width: 576px) {
+        padding: rem(80) 0;
+    }
+    @media (min-width: 992px) {
+        padding: rem(112) 0;
+    }
+    
+    img {
+        display: block;
+        object-fit: cover;
+        object-position: center;
+        
+        @media (min-width: 1200px) {
+            flex: 0 0 calc(100% / 2 - rem(16.01));
+            max-width: calc(100% / 2 - rem(16.01));
+            aspect-ratio: 1;
+        }
+        @media (max-width: 1199px) {
+            flex: 0 0 100%;
+            max-width: 100%;
+            aspect-ratio: 1312/738;
+        }
+    }
+}

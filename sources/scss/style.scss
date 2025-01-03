@@ -1,3 +1,7 @@
+// Vendor
+@use "./../node_modules/swiper/swiper";
+@use "./../node_modules/@fancyapps/fancybox/dist/jquery.fancybox.min.css";
+
 // Variables
 @use "variables";
 @use "extend";
@@ -10,5 +14,41 @@
 @use "footer";
 
 
-// Elements
-//@use "elements/__example-file__";
+// Blocks
+//@use "blocks/article";
+@use "blocks/callback-block";
+@use "blocks/testimonials";
+@use "blocks/certification";
+@use "blocks/guide-block";
+@use "blocks/text-image-block";
+@use "blocks/process-block";
+@use "blocks/services-block";
+//@use "blocks/page-hero";
+@use "blocks/about-block";
+//@use "blocks/text-page";
+//@use "blocks/contact-page";
+@use "blocks/location-block";
+//@use "blocks/faq-block";
+@use "blocks/hero";
+@use "blocks/studies";
+@use "blocks/step";
+@use "blocks/faq";
+//@use "blocks/careers";
+//@use "blocks/job-detail";
+//@use "blocks/blog";
+@use "blocks/priorities";
+@use "blocks/gallery";
+//@use "blocks/case-studies";
+@use "blocks/related-services";
+//@use "blocks/guarantee";
+//@use "blocks/survey-blocks";
+//@use "blocks/project-page";
+@use "blocks/basic-text-section";
+@use "blocks/contact-info-block";
+@use "blocks/form-block";
+@use "blocks/text-box";
+@use "blocks/large-image";
+@use "blocks/fifty-fifty-images";
+@use "blocks/content-block";
+@use "blocks/single-testimonial";
+@use "blocks/secondary-hero";

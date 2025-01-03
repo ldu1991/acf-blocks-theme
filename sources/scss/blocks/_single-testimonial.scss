@@ -1,0 +1,49 @@
+@use "../variables" as *;
+@use "../extend";
+
+.dmp-single-testimonial {
+    max-width: min(100% - math-clamp(64, 128, 1200, 1400), rem(768));
+    margin-left: auto;
+    margin-right: auto;
+    padding: rem(32) 0;
+    
+    @media (min-width: 576px) {
+        padding: rem(80) 0;
+    }
+    @media (min-width: 992px) {
+        padding: rem(112) 0;
+    }
+    
+    &__rating {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+        margin: 0 0 32px;
+    }
+    
+    &__text {
+        text-align: center;
+        margin: 0 0 32px;
+        
+        h5 {
+            font-family: $font-family-poppins;
+            color: $black-main-color;
+            margin: 0;
+        }
+    }
+    
+    &__author {
+        text-align: center;
+        
+        p {
+            @extend %text-regular;
+            font-family: $font-family-Roboto;
+            margin: 0;
+        }
+        
+        b {
+            font-weight: 600;
+        }
+    }
+}
