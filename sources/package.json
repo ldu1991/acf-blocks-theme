@@ -31,8 +31,7 @@
         "gulp-if": "latest",
         "gulp-insert": "latest",
         "gulp-plumber": "latest",
-        "gulp-sass": "latest",
-        "gulp-sourcemaps": "latest",
+        "gulp-sass": "^5.1.0",
         "sass": "latest",
         "terser-webpack-plugin": "latest",
         "webpack-stream": "latest"

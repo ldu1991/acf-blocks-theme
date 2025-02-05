@@ -8,7 +8,6 @@ const browserSync    = require('browser-sync').create(),
       plumber        = require('gulp-plumber'),
       gulpIf         = require('gulp-if'),
       insert         = require('gulp-insert'),
-      sourcemaps     = require('gulp-sourcemaps'),
       autoprefixer   = require('gulp-autoprefixer'),
       changedInPlace = require('gulp-changed-in-place'),
       csso           = require('gulp-csso'),
@@ -200,17 +199,15 @@ for (let elementsKey in elements) {
 // End Generate Heading
 
 function scss(cb) {
-    gulp.src('./scss/**/[^_]*.scss', {allowEmpty: true})
+    gulp.src('./scss/**/[^_]*.scss', {allowEmpty: true, sourcemaps: true})
         .pipe(plumber({errorHandler: onError}))
         .pipe(insert.append(additional_header_classes))
-        .pipe(sourcemaps.init())
-        .pipe(sass.sync({includePaths: ['./scss/'], silenceDeprecations: ['legacy-js-api']}))
+        .pipe(sass.sync({silenceDeprecations: ['legacy-js-api']}))
         .pipe(gulpIf(file => file.path.endsWith('style-editor.scss'), insert.prepend(style_editor_default)))
         .pipe(autoprefixer())
         .pipe(changedInPlace({firstPass: true}))
         .pipe(csso())
-        .pipe(sourcemaps.write())
-        .pipe(gulp.dest('../assets/css'));
+        .pipe(gulp.dest('../assets/css', {sourcemaps: true}));
     cb();
 }
 
@@ -219,7 +216,7 @@ function scssRelease(cb) {
         .pipe(plumber({errorHandler: onError}))
         .pipe(gulpIf(file => file.path.endsWith('style-editor.scss'), insert.prepend(style_editor_default)))
         .pipe(insert.append(additional_header_classes))
-        .pipe(sass.sync({includePaths: ['./scss/'], silenceDeprecations: ['legacy-js-api']}))
+        .pipe(sass.sync({silenceDeprecations: ['legacy-js-api']}))
         .pipe(autoprefixer())
         .pipe(changedInPlace({firstPass: true}))
         .pipe(csso())
@@ -228,22 +225,20 @@ function scssRelease(cb) {
 }
 
 function scssBlocks(cb) {
-    gulp.src(['./blocks/**/[^_]*.scss', '!./blocks/__example/**'], {allowEmpty: true})
+    gulp.src(['./blocks/**/[^_]*.scss', '!./blocks/__example/**'], {allowEmpty: true, sourcemaps: true})
         .pipe(plumber({errorHandler: onError}))
-        .pipe(sourcemaps.init())
-        .pipe(sass.sync({includePaths: ['./scss/'], silenceDeprecations: ['legacy-js-api']}))
+        .pipe(sass.sync({silenceDeprecations: ['legacy-js-api']}))
         .pipe(autoprefixer())
         .pipe(changedInPlace({firstPass: true}))
         .pipe(csso())
-        .pipe(sourcemaps.write())
-        .pipe(gulp.dest('../blocks'));
+        .pipe(gulp.dest('../blocks', {sourcemaps: true}));
     cb();
 }
 
 function scssBlocksRelease(cb) {
     gulp.src(['./blocks/**/[^_]*.scss', '!./blocks/__example/**'], {allowEmpty: true})
         .pipe(plumber({errorHandler: onError}))
-        .pipe(sass.sync({includePaths: ['./scss/'], silenceDeprecations: ['legacy-js-api']}))
+        .pipe(sass.sync({silenceDeprecations: ['legacy-js-api']}))
         .pipe(autoprefixer())
         .pipe(changedInPlace({firstPass: true}))
         .pipe(csso())
