@@ -1,10 +1,19 @@
 {
-    "name": "start",
-    "version": "10.0.0",
-    "description": "Start pack for Front-end develop",
-    "main": "gulpfile.js",
-    "author": "Denis Lipatov",
+    "name": "acf-blocks-theme",
+    "version": "11.0.0",
+    "description": "Starter pack for WordPress development",
+    "exports": "./gulpfile.js",
+    "type": "module",
+    "engines": {
+        "node": ">=18"
+    },
+    "author": {
+        "name": "Denis Lipatov",
+        "email": "ldu2601@gmail.com",
+        "url": "https://github.com/ldu1991"
+    },
     "license": "ISC",
+
     "browserslist": [
         ",> 1%",
         "last 1 Android versions",
@@ -25,9 +34,8 @@
         "fs": "latest",
         "glob": "latest",
         "gulp": "latest",
-        "gulp-autoprefixer": "^8.0.0",
+        "gulp-autoprefixer": "latest",
         "gulp-changed-in-place": "latest",
-        "gulp-csso": "latest",
         "gulp-if": "latest",
         "gulp-insert": "latest",
         "gulp-plumber": "latest",

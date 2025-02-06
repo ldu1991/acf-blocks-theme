@@ -1,17 +1,18 @@
-'use strict';
+import browserSyncLib from 'browser-sync';
+import fs from 'fs';
+import webpackStream from 'webpack-stream';
+import gulp from 'gulp';
+import sassLib from 'gulp-sass';
+import * as dartSass from 'sass';
+import plumber from 'gulp-plumber';
+import gulpIf from 'gulp-if';
+import insert from 'gulp-insert';
+import autoprefixer from 'gulp-autoprefixer';
+import changedInPlace from 'gulp-changed-in-place';
+import webpackConfig from './webpack.config.js';
 
-const browserSync    = require('browser-sync').create(),
-      fs             = require('fs'),
-      webpack        = require('webpack-stream'),
-      gulp           = require('gulp'),
-      sass           = require('gulp-sass')(require('sass')),
-      plumber        = require('gulp-plumber'),
-      gulpIf         = require('gulp-if'),
-      insert         = require('gulp-insert'),
-      autoprefixer   = require('gulp-autoprefixer'),
-      changedInPlace = require('gulp-changed-in-place'),
-      csso           = require('gulp-csso'),
-      webpackConfig  = require('./webpack.config.js');
+const browserSync = browserSyncLib.create();
+const sass = sassLib(dartSass);
 
 // https://sass-lang.com/documentation/breaking-changes/slash-div
 
@@ -206,7 +207,6 @@ function scss(cb) {
         .pipe(gulpIf(file => file.path.endsWith('style-editor.scss'), insert.prepend(style_editor_default)))
         .pipe(autoprefixer())
         .pipe(changedInPlace({firstPass: true}))
-        .pipe(csso())
         .pipe(gulp.dest('../assets/css', {sourcemaps: true}));
     cb();
 }
@@ -214,12 +214,10 @@ function scss(cb) {
 function scssRelease(cb) {
     gulp.src('./scss/**/[^_]*.scss', {allowEmpty: true})
         .pipe(plumber({errorHandler: onError}))
-        .pipe(gulpIf(file => file.path.endsWith('style-editor.scss'), insert.prepend(style_editor_default)))
         .pipe(insert.append(additional_header_classes))
-        .pipe(sass.sync({silenceDeprecations: ['legacy-js-api']}))
+        .pipe(sass.sync({outputStyle: 'compressed', silenceDeprecations: ['legacy-js-api']}))
+        .pipe(gulpIf(file => file.path.endsWith('style-editor.scss'), insert.prepend(style_editor_default)))
         .pipe(autoprefixer())
-        .pipe(changedInPlace({firstPass: true}))
-        .pipe(csso())
         .pipe(gulp.dest('../assets/css'));
     cb();
 }
@@ -230,7 +228,6 @@ function scssBlocks(cb) {
         .pipe(sass.sync({silenceDeprecations: ['legacy-js-api']}))
         .pipe(autoprefixer())
         .pipe(changedInPlace({firstPass: true}))
-        .pipe(csso())
         .pipe(gulp.dest('../blocks', {sourcemaps: true}));
     cb();
 }
@@ -238,10 +235,8 @@ function scssBlocks(cb) {
 function scssBlocksRelease(cb) {
     gulp.src(['./blocks/**/[^_]*.scss', '!./blocks/__example/**'], {allowEmpty: true})
         .pipe(plumber({errorHandler: onError}))
-        .pipe(sass.sync({silenceDeprecations: ['legacy-js-api']}))
+        .pipe(sass.sync({outputStyle: 'compressed', silenceDeprecations: ['legacy-js-api']}))
         .pipe(autoprefixer())
-        .pipe(changedInPlace({firstPass: true}))
-        .pipe(csso())
         .pipe(gulp.dest('../blocks'));
     cb();
 }
@@ -251,11 +246,11 @@ function scssBlocksRelease(cb) {
 
 /* JS */
 function js() {
-    return webpack(webpackConfig(false)).pipe(gulp.dest('../assets/js'));
+    return webpackStream(webpackConfig(false)).pipe(gulp.dest('../assets/js'));
 }
 
 function jsRelease() {
-    return webpack(webpackConfig(true)).pipe(gulp.dest('../assets/js'));
+    return webpackStream(webpackConfig(true)).pipe(gulp.dest('../assets/js'));
 }
 
 /* End JS */
@@ -303,5 +298,8 @@ function watch(cb) {
 }
 
 
-exports.release = gulp.series(scssRelease, scssBlocksRelease, jsRelease);
-exports.default = gulp.series(scss, scssBlocks, js, blocksFiles, gulp.parallel(browserSyncInit, watch));
+// exports.release = gulp.series(scssRelease, scssBlocksRelease, jsRelease);
+// exports.default = gulp.series(scss, scssBlocks, js, blocksFiles, gulp.parallel(browserSyncInit, watch));
+
+export const release = gulp.series(scssRelease, scssBlocksRelease, jsRelease);
+export default gulp.series(scss, scssBlocks, js, blocksFiles, gulp.parallel(browserSyncInit, watch));

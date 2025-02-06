@@ -1,4 +1,4 @@
-import {isEven, isjQuery, videoResize} from "./app/functions";
+import {isEven, isjQuery, videoResize} from "./app/functions.js";
 
 (function ($) {
 

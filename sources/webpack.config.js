@@ -1,24 +1,28 @@
-const path                  = require('path');
-const TerserPlugin          = require('terser-webpack-plugin');
-const {CleanWebpackPlugin}  = require('clean-webpack-plugin');
-const glob = require('glob');
+import path from 'path';
+import TerserPlugin from 'terser-webpack-plugin';
+import {CleanWebpackPlugin} from 'clean-webpack-plugin';
+import { globSync } from 'glob';
+import { fileURLToPath } from 'url';
 
-module.exports = (production) => {
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+export default (production) => {
     const entry = {
         script: './js/script.js'
     };
 
-    const blockFiles = glob.sync('./blocks/**/*.js');
+    const blockFiles = globSync('./blocks/**/*.js');
     blockFiles.forEach((file) => {
         if (!file.includes('__example')) {
-            const entryName = path.relative('./blocks', file);
+            const entryName  = path.relative('./blocks', file);
             entry[entryName] = './' + file;
         }
     });
 
     let config = {
-        mode: production ? "production" : "development",
-        entry: entry,
+        mode:   production ? "production" : "development",
+        entry:  entry,
         output: {
             filename: (pathData) => {
                 if (pathData.chunk.name === 'script') {
@@ -29,15 +33,15 @@ module.exports = (production) => {
                     return path.join('../..', 'blocks', blockPath, blockName); // Сохраняем в '../blocks/{blockPath}/{blockName}'
                 }
             },
-            path: path.resolve(__dirname, '../assets/js')
+            path:     path.resolve(__dirname, '../assets/js')
         },
         module: {
             rules: [
                 {
-                    test: /\.js$/,
+                    test:    /\.js$/,
                     exclude: /node_modules/,
-                    use: {
-                        loader: 'babel-loader',
+                    use:     {
+                        loader:  'babel-loader',
                         options: {
                             presets: ['@babel/preset-env']
                         }
@@ -48,11 +52,11 @@ module.exports = (production) => {
     }
     if (production) {
         config.optimization = {
-            minimize: true,
+            minimize:  true,
             minimizer: [
                 new TerserPlugin({
-                    terserOptions: {
-                        ecma: 5,
+                    terserOptions:   {
+                        ecma:   5,
                         format: {
                             comments: false
                         }
@@ -61,8 +65,8 @@ module.exports = (production) => {
                 })
             ]
         }
-        config.plugins = [new CleanWebpackPlugin()]
-        config.performance = {
+        config.plugins      = [new CleanWebpackPlugin()]
+        config.performance  = {
             hints: false
         }
     }
