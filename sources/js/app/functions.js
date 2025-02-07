@@ -57,7 +57,7 @@ export const videoResize = (elements, className) => {
  * @param fn
  */
 export const renderBlock = (type = '', fn) => {
-    if (typeof wp !== 'undefined' && typeof wp.domReady !== 'undefined') {
+    if (typeof wp !== 'undefined' && typeof wp.domReady !== 'undefined' && wp.data.select('core/editor')) {
         wp.domReady(() => {
             if (typeof wp.data !== 'undefined' &&
                 typeof wp.data.select('core/editor') !== 'undefined' &&
