@@ -122,7 +122,7 @@ function add_theme_supports()
     ));
 
     // Add image sizes.
-    //add_image_size('thumbnail-once', 200, 200, true);
+    //add_image_size('thumbnail-once', 480, 480, true);
 
     // Editor styles.
     add_theme_support('editor-styles');

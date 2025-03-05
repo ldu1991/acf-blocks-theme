@@ -203,7 +203,7 @@ function scss(cb) {
     gulp.src('./scss/**/[^_]*.scss', {allowEmpty: true, sourcemaps: true})
         .pipe(plumber({errorHandler: onError}))
         .pipe(insert.append(additional_header_classes))
-        .pipe(sass.sync({silenceDeprecations: ['legacy-js-api']}))
+        .pipe(sass.sync())
         .pipe(gulpIf(file => file.path.endsWith('style-editor.scss'), insert.prepend(style_editor_default)))
         .pipe(autoprefixer())
         .pipe(changedInPlace({firstPass: true}))
@@ -215,7 +215,7 @@ function scssRelease(cb) {
     gulp.src('./scss/**/[^_]*.scss', {allowEmpty: true})
         .pipe(plumber({errorHandler: onError}))
         .pipe(insert.append(additional_header_classes))
-        .pipe(sass.sync({outputStyle: 'compressed', silenceDeprecations: ['legacy-js-api']}))
+        .pipe(sass.sync({style: 'compressed'}))
         .pipe(gulpIf(file => file.path.endsWith('style-editor.scss'), insert.prepend(style_editor_default)))
         .pipe(autoprefixer())
         .pipe(gulp.dest('../assets/css'));
@@ -225,7 +225,7 @@ function scssRelease(cb) {
 function scssBlocks(cb) {
     gulp.src(['./blocks/**/[^_]*.scss', '!./blocks/__example/**'], {allowEmpty: true, sourcemaps: true})
         .pipe(plumber({errorHandler: onError}))
-        .pipe(sass.sync({silenceDeprecations: ['legacy-js-api']}))
+        .pipe(sass.sync())
         .pipe(autoprefixer())
         .pipe(changedInPlace({firstPass: true}))
         .pipe(gulp.dest('../blocks', {sourcemaps: true}));
@@ -235,7 +235,7 @@ function scssBlocks(cb) {
 function scssBlocksRelease(cb) {
     gulp.src(['./blocks/**/[^_]*.scss', '!./blocks/__example/**'], {allowEmpty: true})
         .pipe(plumber({errorHandler: onError}))
-        .pipe(sass.sync({outputStyle: 'compressed', silenceDeprecations: ['legacy-js-api']}))
+        .pipe(sass.sync({style: 'compressed'}))
         .pipe(autoprefixer())
         .pipe(gulp.dest('../blocks'));
     cb();
@@ -297,9 +297,6 @@ function watch(cb) {
     cb();
 }
 
-
-// exports.release = gulp.series(scssRelease, scssBlocksRelease, jsRelease);
-// exports.default = gulp.series(scss, scssBlocks, js, blocksFiles, gulp.parallel(browserSyncInit, watch));
 
 export const release = gulp.series(scssRelease, scssBlocksRelease, jsRelease);
 export default gulp.series(scss, scssBlocks, js, blocksFiles, gulp.parallel(browserSyncInit, watch));

@@ -13,7 +13,6 @@
         "url": "https://github.com/ldu1991"
     },
     "license": "ISC",
-
     "browserslist": [
         ",> 1%",
         "last 1 Android versions",
@@ -39,7 +38,7 @@
         "gulp-if": "latest",
         "gulp-insert": "latest",
         "gulp-plumber": "latest",
-        "gulp-sass": "^5.1.0",
+        "gulp-sass": "latest",
         "sass": "latest",
         "terser-webpack-plugin": "latest",
         "webpack-stream": "latest"

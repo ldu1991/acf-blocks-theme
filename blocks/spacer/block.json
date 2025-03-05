@@ -1,7 +1,10 @@
 {
     "name": "acf/spacer",
     "title": "Spacer",
-    "style": [
+    "editorStyle": [
+        "file:./style.css"
+    ],
+    "viewStyle": [
         "file:./style.css"
     ],
     "category": "beyond-category",
