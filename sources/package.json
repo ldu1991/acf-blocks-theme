@@ -4,6 +4,10 @@
     "description": "Starter pack for WordPress development",
     "exports": "./gulpfile.js",
     "type": "module",
+    "scripts": {
+        "dev": "gulp",
+        "release": "gulp release"
+    },
     "engines": {
         "node": ">=18"
     },

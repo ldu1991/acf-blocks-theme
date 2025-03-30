@@ -90,50 +90,60 @@
                     ]
                 }
             ],
+            "fluid": {
+                "minViewportWidth": "768",
+                "maxViewportWidth": "1400",
+                "minFontSize": "1rem"
+            },
             "fontSizes": [
                 {
                     "name": "12px",
                     "size": "0.75rem",
-                    "slug": "12"
+                    "slug": "12",
+                    "fluid": false
                 },
                 {
                     "name": "14px",
                     "size": "0.875rem",
-                    "slug": "14"
+                    "slug": "14",
+                    "fluid": false
                 },
                 {
                     "name": "15px",
                     "size": "0.9375rem",
-                    "slug": "15"
+                    "slug": "15",
+                    "fluid": false
                 },
                 {
                     "name": "16px",
                     "size": "1rem",
-                    "slug": "16"
+                    "slug": "16",
+                    "fluid": false
                 },
                 {
                     "name": "18px",
                     "size": "1.125rem",
-                    "slug": "18"
+                    "slug": "18",
+                    "fluid": false
                 },
                 {
                     "name": "20px",
-                    "size": "clamp(1.125rem, 1.125rem + ((1vw - 0.36rem) * 0.2427), 1.25rem)",
+                    "size": "1.25rem",
                     "slug": "20"
                 },
                 {
                     "name": "22px",
-                    "size": "clamp(1.25rem, 1.25rem + ((1vw - 0.36rem) * 0.2427), 1.375rem)",
+                    "size": "1.375rem",
                     "slug": "22"
                 },
                 {
                     "name": "24px",
-                    "size": "clamp(1.375rem, 1.375rem + ((1vw - 0.36rem) * 0.2427), 1.5rem)",
+                    "size": "1.5rem",
                     "slug": "24"
                 },
                 {
                     "name": "26px",
-                    "size": "clamp(1.5rem, 1.5rem + ((1vw - 0.36rem) * 0.2427), 1.625rem)",
+                    "size": "1.625rem",
                     "slug": "26"
                 }
             ]

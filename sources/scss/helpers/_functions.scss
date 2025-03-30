@@ -46,7 +46,7 @@
     $view_port_width_offset: _unit(math.div($min_viewport, 100), $unit);
     $size_difference: $max-size - $min-size;
     $viewport_difference: $max_viewport - $min_viewport;
-    $linear_factor: math.div(math.round((100 * math.div($size_difference, $viewport_difference)) * 10000), 10000);
+    $linear_factor: math.div(math.ceil((100 * math.div($size_difference, $viewport_difference)) * 1000), 1000);
     
     $fluid_target_size: "#{_unit($min-size, $unit)} + ((1vw - #{$view_port_width_offset}) * #{$linear_factor})";
     
@@ -68,7 +68,7 @@
     $view_port_width_offset: _unit(math.div($min_viewport, 100), $unit);
     $size_difference: $max-size - $min-size;
     $viewport_difference: $max_viewport - $min_viewport;
-    $linear_factor: math.div(math.round((100 * math.div($size_difference, $viewport_difference)) * 10000), 10000);
+    $linear_factor: math.div(math.ceil((100 * math.div($size_difference, $viewport_difference)) * 1000), 1000);
     
     $fluid_target_size: "#{_unit($min-size, $unit)} + ((1vw - #{$view_port_width_offset}) * #{$linear_factor})";
     
