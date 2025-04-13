@@ -1,13 +1,13 @@
 import path from 'path';
 import TerserPlugin from 'terser-webpack-plugin';
 import {CleanWebpackPlugin} from 'clean-webpack-plugin';
-import { globSync } from 'glob';
-import { fileURLToPath } from 'url';
+import {globSync} from 'glob';
+import {fileURLToPath} from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const __dirname  = path.dirname(__filename);
 
-export default (production) => {
+export default (env, argv) => {
     const entry = {
         script: './js/script.js'
     };
@@ -21,16 +21,19 @@ export default (production) => {
     });
 
     let config = {
-        mode:   production ? "production" : "development",
+        mode:   argv.mode,
         entry:  entry,
         output: {
             filename: (pathData) => {
                 if (pathData.chunk.name === 'script') {
                     return 'script.js';
                 } else {
-                    const blockPath = path.dirname(pathData.chunk.name); // Получаем путь блока из имени entry
-                    const blockName = path.basename(pathData.chunk.name); // Получаем имя блока из имени entry
-                    return path.join('../..', 'blocks', blockPath, blockName); // Сохраняем в '../blocks/{blockPath}/{blockName}'
+                    // Получаем путь блока из имени entry
+                    const blockPath = path.dirname(pathData.chunk.name);
+                    // Получаем имя блока из имени entry
+                    const blockName = path.basename(pathData.chunk.name);
+                    // Сохраняем в '../blocks/{blockPath}/{blockName}'
+                    return path.join('../..', 'blocks', blockPath, blockName);
                 }
             },
             path:     path.resolve(__dirname, '../assets/js')
@@ -50,7 +53,8 @@ export default (production) => {
             ]
         }
     }
-    if (production) {
+
+    if (argv.mode === 'production') {
         config.optimization = {
             minimize:  true,
             minimizer: [
@@ -68,6 +72,11 @@ export default (production) => {
         config.plugins      = [new CleanWebpackPlugin()]
         config.performance  = {
             hints: false
+        }
+    } else {
+        config.watch = true
+        config.cache = {
+            type: 'filesystem'
         }
     }
 

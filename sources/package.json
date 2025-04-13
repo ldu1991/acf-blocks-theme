@@ -1,12 +1,12 @@
 {
     "name": "acf-blocks-theme",
-    "version": "11.0.0",
+    "version": "11.1.0",
     "description": "Starter pack for WordPress development",
     "exports": "./gulpfile.js",
     "type": "module",
     "scripts": {
-        "dev": "gulp",
-        "release": "gulp release"
+        "dev": "concurrently \"gulp\" \"webpack --mode development --watch\"",
+        "release": "concurrently \"gulp release\" \"webpack --mode production\""
     },
     "engines": {
         "node": ">=18"
@@ -34,6 +34,7 @@
         "babel-loader": "latest",
         "browser-sync": "latest",
         "clean-webpack-plugin": "latest",
+        "concurrently": "latest",
         "fs": "latest",
         "glob": "latest",
         "gulp": "latest",
@@ -45,7 +46,8 @@
         "gulp-sass": "latest",
         "sass": "latest",
         "terser-webpack-plugin": "latest",
-        "webpack-stream": "latest"
+        "webpack": "latest",
+        "webpack-cli": "latest"
     },
     "dependencies": {
         "@fancyapps/fancybox": "latest",

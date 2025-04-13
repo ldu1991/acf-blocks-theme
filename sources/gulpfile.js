@@ -1,6 +1,5 @@
 import browserSyncLib from 'browser-sync';
 import fs from 'fs';
-import webpackStream from 'webpack-stream';
 import gulp from 'gulp';
 import sassLib from 'gulp-sass';
 import * as dartSass from 'sass';
@@ -9,7 +8,6 @@ import gulpIf from 'gulp-if';
 import insert from 'gulp-insert';
 import autoprefixer from 'gulp-autoprefixer';
 import changedInPlace from 'gulp-changed-in-place';
-import webpackConfig from './webpack.config.js';
 
 const browserSync = browserSyncLib.create();
 const sass = sassLib(dartSass);
@@ -244,17 +242,6 @@ function scssBlocksRelease(cb) {
 /* End CSS */
 
 
-/* JS */
-function js() {
-    return webpackStream(webpackConfig(false)).pipe(gulp.dest('../assets/js'));
-}
-
-function jsRelease() {
-    return webpackStream(webpackConfig(true)).pipe(gulp.dest('../assets/js'));
-}
-
-/* End JS */
-
 /* Blocks */
 function blocksFiles(cb) {
     gulp.src([
@@ -289,14 +276,13 @@ function browserSyncInit(cb) {
 }
 
 function watch(cb) {
-    gulp.watch('../theme.json', {cwd: './'}, gulp.series(scss, js));
+    gulp.watch('../theme.json', {cwd: './'}, gulp.series(scss));
     gulp.watch('./scss/**/*.scss', {cwd: './'}, gulp.series(scss));
-    gulp.watch(['./js/**/*.js', './blocks/**/*.js'], {cwd: './'}, gulp.series(js));
     gulp.watch('./blocks/**/*.scss', {cwd: './'}, gulp.series(scssBlocks));
     gulp.watch(['./blocks/**/*.json', './blocks/**/*.php'], {cwd: './'}, gulp.series(blocksFiles));
     cb();
 }
 
 
-export const release = gulp.series(scssRelease, scssBlocksRelease, jsRelease);
-export default gulp.series(scss, scssBlocks, js, blocksFiles, gulp.parallel(browserSyncInit, watch));
+export const release = gulp.series(scssRelease, scssBlocksRelease);
+export default gulp.series(scss, scssBlocks, blocksFiles, gulp.parallel(browserSyncInit, watch));
