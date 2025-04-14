@@ -3,20 +3,21 @@ import TerserPlugin from 'terser-webpack-plugin';
 import {CleanWebpackPlugin} from 'clean-webpack-plugin';
 import {globSync} from 'glob';
 import {fileURLToPath} from 'url';
+import ESLintPlugin from 'eslint-webpack-plugin';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname  = path.dirname(__filename);
 
 export default (env, argv) => {
-    const entry = {
-        script: './js/script.js'
-    };
+    let entry = {}
 
-    const blockFiles = globSync('./blocks/**/*.js');
-    blockFiles.forEach((file) => {
+    globSync('./js/*.js').forEach((file) => {
+        entry[path.join('..', 'assets', file)] = './' + file;
+    });
+
+    globSync('./blocks/**/*.js').forEach((file) => {
         if (!file.includes('__example')) {
-            const entryName  = path.relative('./blocks', file);
-            entry[entryName] = './' + file;
+            entry[path.join('..', file)] = './' + file;
         }
     });
 
@@ -24,19 +25,8 @@ export default (env, argv) => {
         mode:   argv.mode,
         entry:  entry,
         output: {
-            filename: (pathData) => {
-                if (pathData.chunk.name === 'script') {
-                    return 'script.js';
-                } else {
-                    // Получаем путь блока из имени entry
-                    const blockPath = path.dirname(pathData.chunk.name);
-                    // Получаем имя блока из имени entry
-                    const blockName = path.basename(pathData.chunk.name);
-                    // Сохраняем в '../blocks/{blockPath}/{blockName}'
-                    return path.join('../..', 'blocks', blockPath, blockName);
-                }
-            },
-            path:     path.resolve(__dirname, '../assets/js')
+            filename: '[name]',
+            path:     path.resolve(__dirname, '.')
         },
         module: {
             rules: [
@@ -74,8 +64,8 @@ export default (env, argv) => {
             hints: false
         }
     } else {
-        config.watch = true
-        config.cache = {
+        config.watch   = true
+        config.cache   = {
             type: 'filesystem'
         }
     }
