@@ -35,9 +35,9 @@ add_action('admin_head', 'custom_inline_menu_styles');
  */
 function set_acf_color_palette()
 {
-    $theme_json = wp_get_global_settings();
+    $theme_json = tcl_get_global_settings();
     $color_palettes = '';
-    foreach ($theme_json['color']['palette']['theme'] as $color) {
+    foreach ($theme_json['color']['palette'] as $color) {
         $color_palettes .= '"' . $color['color'] . '",';
     }
 
@@ -130,21 +130,24 @@ function add_theme_supports()
     add_editor_style('assets/css/style-editor.css');
 }
 
+
 /**
  * @param $init
  * @return mixed
  */
 function color_palettes_tiny_mce($init)
 {
-    $theme_json = wp_get_global_settings();
+    $theme_json = tcl_get_global_settings();
+
+
     $color_palettes = '';
-    foreach ($theme_json['color']['palette']['theme'] as $color) {
+    foreach ($theme_json['color']['palette'] as $color) {
         $color_palettes .= '"' . preg_replace("/#/", "", $color['color']) . '","' . $color['name'] . '",';
     }
 
     $init['textcolor_map'] = '[' . $color_palettes . ']';
 
-    $init['textcolor_rows'] = ceil(count($theme_json['color']['palette']['theme']) / 8);
+    $init['textcolor_rows'] = ceil(count($theme_json['color']['palette']) / 8);
 
     return $init;
 }

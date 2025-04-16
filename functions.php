@@ -11,7 +11,7 @@ if (!defined('ABSPATH')) {
 // get_stylesheet_directory_uri();  http://site/wp-content/themes/my-CHILD-theme
 
 
-function get_prefix()
+function tcl_get_global_settings()
 {
     $json_path = get_stylesheet_directory() . '/theme.json';
 
@@ -22,7 +22,15 @@ function get_prefix()
     $json_data = file_get_contents($json_path);
     $parsed    = json_decode($json_data, true);
 
-    return $parsed['settings']['custom']['prefix'] ?? null;
+    return $parsed['settings'] ?? null;
+}
+
+
+function get_prefix()
+{
+    $json = tcl_get_global_settings();
+
+    return $json['custom']['prefix'] ?? null;
 }
 
 
