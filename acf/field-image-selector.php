@@ -8,7 +8,7 @@ if (!class_exists('wp_custom_acf_field_image_selector')) :
         function initialize()
         {
             $this->name     = 'wp_custom_acf_image_selector';
-            $this->label    = __('Image Selector', B_PREFIX);
+            $this->label    = __('Image Selector', get_prefix());
             $this->category = 'choice';
             $this->defaults = array(
                 'choices'         => array(),
@@ -21,8 +21,8 @@ if (!class_exists('wp_custom_acf_field_image_selector')) :
 
         function input_admin_enqueue_scripts()
         {
-            wp_enqueue_style(B_PREFIX . '-wp-custom-acf-image-selector', get_template_directory_uri() . '/acf/field-image-selector.css');
-            wp_enqueue_script(B_PREFIX . '-wp-custom-acf-image-selector', get_template_directory_uri() . '/acf/field-image-selector.js', array('jquery'), false, true);
+            wp_enqueue_style(get_prefix() . '-wp-custom-acf-image-selector', get_template_directory_uri() . '/acf/field-image-selector.css');
+            wp_enqueue_script(get_prefix() . '-wp-custom-acf-image-selector', get_template_directory_uri() . '/acf/field-image-selector.js', array('jquery'), false, true);
         }
 
         function render_field($field)

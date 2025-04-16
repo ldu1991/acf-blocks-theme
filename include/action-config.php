@@ -35,7 +35,7 @@ add_action('admin_head', 'custom_inline_menu_styles');
  */
 function set_acf_color_palette()
 {
-    $theme_json = WP_Theme_JSON_Resolver::get_merged_data()->get_settings();
+    $theme_json = wp_get_global_settings();
     $color_palettes = '';
     foreach ($theme_json['color']['palette']['theme'] as $color) {
         $color_palettes .= '"' . $color['color'] . '",';
@@ -48,11 +48,11 @@ function set_acf_color_palette()
 function set_modules()
 {
     $style_library = array(
-        //'swiper' => B_STYLE_URL . '/assets/css/lib/swiper.css'
+        //'swiper' => get_stylesheet_directory_uri() . '/assets/css/lib/swiper.css'
     );
 
     $script_library = array(
-        //'swiper' => B_TEMP_URL . '/assets/lib/swiper-bundle.min.js'
+        //'swiper' => get_stylesheet_directory_uri() . '/assets/lib/swiper-bundle.min.js'
     );
 
     if (!empty($style_library)) {
@@ -72,7 +72,7 @@ function set_modules()
         array(
             'url' => admin_url('admin-ajax.php'),
             'nonce' => wp_create_nonce('wpajax-noncecode'),
-            'prefix' => B_PREFIX
+            'prefix' => get_prefix()
         )
     );
 }
@@ -83,10 +83,10 @@ function set_modules()
 function set_styles_scripts()
 {
     /* *** STYLES *** */
-    wp_enqueue_style(B_PREFIX . '-style', B_STYLE_URL . '/assets/css/style.css', array(), wp_get_theme()->get('Version'));
+    wp_enqueue_style(get_prefix() . '-style', get_stylesheet_directory_uri() . '/assets/css/style.css', array(), wp_get_theme()->get('Version'));
 
     /* *** SCRIPTS *** */
-    wp_enqueue_script(B_PREFIX . '-script', B_TEMP_URL . '/assets/js/script.js', array('jquery'), wp_get_theme()->get('Version'), true);
+    wp_enqueue_script(get_prefix() . '-script', get_stylesheet_directory_uri() . '/assets/js/script.js', array('jquery'), wp_get_theme()->get('Version'), true);
 }
 
 
@@ -96,7 +96,7 @@ function set_styles_scripts()
 function add_theme_supports()
 {
     // Localisation Support
-    load_theme_textdomain('html5blank', B_TEMP_PATH . '/languages');
+    //load_theme_textdomain('html5blank', B_TEMP_PATH . '/languages');
 
     // Let WordPress manage the document title.
     add_theme_support('title-tag');
@@ -136,7 +136,7 @@ function add_theme_supports()
  */
 function color_palettes_tiny_mce($init)
 {
-    $theme_json = WP_Theme_JSON_Resolver::get_merged_data()->get_settings();
+    $theme_json = wp_get_global_settings();
     $color_palettes = '';
     foreach ($theme_json['color']['palette']['theme'] as $color) {
         $color_palettes .= '"' . preg_replace("/#/", "", $color['color']) . '","' . $color['name'] . '",';

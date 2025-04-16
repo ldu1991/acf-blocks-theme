@@ -5,16 +5,25 @@ if (!defined('ABSPATH')) {
     exit('Direct script access denied.');
 }
 
-$theme_json = WP_Theme_JSON_Resolver::get_merged_data()->get_settings();
+// get_template_directory();        D:/OpenServer/domains/site/wp-content/themes/my-PARENT-theme
+// get_template_directory_uri();    http://site/wp-content/themes/my-PARENT-theme
+// get_stylesheet_directory();      D:/OpenServer/domains/site/wp-content/themes/my-CHILD-theme
+// get_stylesheet_directory_uri();  http://site/wp-content/themes/my-CHILD-theme
 
-/**
- * Define constants.
- */
-if (!defined('B_PREFIX')) define('B_PREFIX', $theme_json['custom']['prefix']);
-if (!defined('B_TEMP_PATH')) define('B_TEMP_PATH', get_template_directory());
-if (!defined('B_TEMP_URL')) define('B_TEMP_URL', get_template_directory_uri());
-if (!defined('B_STYLE_PATH')) define('B_STYLE_PATH', get_stylesheet_directory());
-if (!defined('B_STYLE_URL')) define('B_STYLE_URL', get_stylesheet_directory_uri());
+
+function get_prefix()
+{
+    $json_path = get_stylesheet_directory() . '/theme.json';
+
+    if (!file_exists($json_path)) {
+        return null;
+    }
+
+    $json_data = file_get_contents($json_path);
+    $parsed    = json_decode($json_data, true);
+
+    return $parsed['settings']['custom']['prefix'] ?? null;
+}
 
 
 function add_block_category($categories, $post)
@@ -23,12 +32,13 @@ function add_block_category($categories, $post)
         array(
             array(
                 'slug'  => 'beyond-category',
-                'title' => __('Beyond Blocks', B_PREFIX)
+                'title' => __('Beyond Blocks', get_prefix())
             )
         ),
         $categories
     );
 }
+
 add_filter('block_categories_all', 'add_block_category', 10, 2);
 
 function register_acf_blocks()

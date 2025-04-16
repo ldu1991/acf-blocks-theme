@@ -63,7 +63,7 @@ function get_section_options(string $general_class = '', array $block = array(),
     $hp_blocks_background = get_field('hp_blocks_background') ?: 'hp-bg-brand-black';
     $result['class'][]    = $hp_blocks_background;
 
-    $result['class'][] = B_PREFIX . '-section-element';
+    $result['class'][] = get_prefix() . '-section-element';
 
     return $result;
 }
@@ -79,8 +79,8 @@ function has_preview_screenshot(array $block = array(), string $src = ''): bool
     $filename       = str_replace('acf/', '', $block['name']);
     $screenshot_src = !empty($src) ? $src : '/assets/img/screenshots/' . $filename . '.jpg';
 
-    if (!empty($screenshot) && file_exists(B_TEMP_PATH . $screenshot_src)) {
-        echo '<img width="100%" height="100%" src="' . B_TEMP_URL . $screenshot_src . '" alt="' . $filename . '">';
+    if (!empty($screenshot) && file_exists(get_stylesheet_directory() . $screenshot_src)) {
+        echo '<img width="100%" height="100%" src="' . get_stylesheet_directory_uri() . $screenshot_src . '" alt="' . $filename . '">';
 
         return true;
     }

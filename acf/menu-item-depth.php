@@ -23,26 +23,18 @@ function wp_custom_acf_array_insert_after($array, $key, $new_key, $new_value = n
         }
 
         if ($k === $key) {
-
             if ($is_sequential) {
-
                 $new_value   = $new_value === null ? $new_key : $new_value;
                 $new_array[] = $new_value;
-
             } else {
-
                 if ($new_value === null && is_array($new_key)) {
                     reset($new_key);
                     $new_value = current($new_key);
                     $new_key   = key($new_key);
                 }
-
                 $new_array[$new_key] = $new_value;
-
             }
-
         }
-
     }
 
     return $new_array;
@@ -57,7 +49,7 @@ if (!class_exists('wp_custom_acf_location_menu_item_depth')):
         {
 
             $this->name     = 'nav_menu_item_depth';
-            $this->label    = __('Menu Item Depth', B_PREFIX);
+            $this->label    = __('Menu Item Depth', get_prefix());
             $this->category = 'forms';
 
             add_filter('acf/location/rule_types', array($this, 'location_rules_types'));
@@ -67,17 +59,11 @@ if (!class_exists('wp_custom_acf_location_menu_item_depth')):
         function location_rules_types($groups)
         {
             foreach ($groups as &$sub_group) {
-
                 if (isset($sub_group['nav_menu_item'])) {
-
                     $sub_group = wp_custom_acf_array_insert_after($sub_group, 'nav_menu_item', $this->name, $this->label);
-
                 }
-
             }
-
             return $groups;
-
         }
 
         function rule_values($choices, $rule)
@@ -98,7 +84,6 @@ if (!class_exists('wp_custom_acf_location_menu_item_depth')):
 
         function rule_match($result, $rule, $screen)
         {
-
             // Vars
             $depth = acf_maybe_get($screen, 'nav_menu_item_depth');
 
