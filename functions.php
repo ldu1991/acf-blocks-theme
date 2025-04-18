@@ -30,11 +30,11 @@ function get_prefix()
 {
     $json = tcl_get_global_settings();
 
-    return $json['custom']['prefix'] ?? null;
+    return $json['custom']['prefix'] ?? 'tcl';
 }
 
 
-function add_block_category($categories, $post)
+function add_block_category($categories, $post): array
 {
     return array_merge(
         array(
@@ -49,9 +49,9 @@ function add_block_category($categories, $post)
 
 add_filter('block_categories_all', 'add_block_category', 10, 2);
 
-function register_acf_blocks()
+function register_acf_blocks(): void
 {
-    $subdirectories = glob(__DIR__ . '/blocks/*', GLOB_ONLYDIR);
+    $subdirectories = glob(get_stylesheet_directory() . '/blocks/*', GLOB_ONLYDIR);
 
     foreach ($subdirectories as $subdirectory) {
         register_block_type($subdirectory);
@@ -62,6 +62,9 @@ add_action('init', 'register_acf_blocks');
 
 include_once('include/helper-functions.php');
 include_once('include/action-config.php');
+foreach (glob(get_stylesheet_directory() . '/include/components/ui-*.php') as $component_file) {
+    require_once $component_file;
+}
 
 if (class_exists('acf')) {
     include_once('acf/menu-item-depth.php');

@@ -7,7 +7,7 @@
  * @param int $max_viewport
  * @return string
  */
-function clamp($min_size, $max_size, int $min_viewport = 576, int $max_viewport = 1400)
+function clamp($min_size, $max_size, int $min_viewport = 768, int $max_viewport = 1400)
 {
     $view_port_width_offset = ($min_viewport / 100) / 16 . 'rem';
     $size_difference        = $max_size - $min_size;
@@ -86,47 +86,6 @@ function has_preview_screenshot(array $block = array(), string $src = ''): bool
     }
 
     return false;
-}
-
-/**
- * @param $link_arr
- * @param array $classes
- * @param string $teg
- * @param array $atts
- * @param bool $return
- * @return string|void
- */
-function the_btn($link_arr, array $classes = array(), string $teg = 'a', array $atts = array(), bool $return = false)
-{
-    $class_link = array('fl-btn');
-    $class_link = array_merge($class_link, $classes);
-
-    if (!empty($link_arr)) {
-        $html               = '';
-        $atts['class']      = esc_attr(trim(implode(' ', $class_link), " "));
-        $atts['href']       = (!empty($link_arr['url']) && $teg === 'a') ? esc_url($link_arr['url']) : '';
-        $atts['target']     = (!empty($link_arr['target']) && $link_arr['target'] === '_blank') ? '_blank' : '';
-        $atts['aria-label'] = !empty($link_arr['title']) ? esc_attr($link_arr['title']) : 'Button';
-        if ($teg === 'span') $atts['role'] = 'button';
-
-        $attributes = '';
-        foreach ($atts as $attr => $value) {
-            if (is_scalar($value) && '' !== $value && false !== $value) {
-                $value      = ('href' === $attr) ? esc_url($value) : esc_attr($value);
-                $attributes .= ' ' . $attr . '="' . $value . '"';
-            }
-        }
-
-        $html .= '<' . $teg . $attributes . '>';
-        $html .= !empty($link_arr['title']) ? esc_html($link_arr['title']) : '';
-        $html .= '</' . $teg . '>';
-
-        if (!$return) {
-            echo $html;
-        } else {
-            return $html;
-        }
-    }
 }
 
 /**
@@ -222,3 +181,4 @@ function custom_wp_trim_excerpt($post_id = null, int $excerpt_length = 55, strin
         return wp_trim_words($text, $excerpt_length, $more);
     }
 }
+
