@@ -1,5 +1,16 @@
 <?php
 
+if (!function_exists('normalize_classes')) {
+    function normalize_classes($classes): array
+    {
+        if (is_array($classes)) {
+            return $classes;
+        }
+
+        return preg_split('/\s+/', trim((string) $classes)) ?: array();
+    }
+}
+
 /**
  * @param $min_size
  * @param $max_size

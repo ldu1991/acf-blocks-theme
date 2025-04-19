@@ -25,13 +25,6 @@ if (!function_exists('ui_btn')) {
      */
     function ui_btn(array $param = array()): int|string
     {
-        $normalize_classes = function ($classes): array {
-            if (is_array($classes)) {
-                return $classes;
-            }
-
-            return preg_split('/\s+/', trim((string)$classes)) ?: array();
-        };
 
         $defaults = array(
             'link'    => array(
@@ -49,7 +42,7 @@ if (!function_exists('ui_btn')) {
 
         $class = array_merge(
             array(get_prefix() . '-btn'),
-            $normalize_classes($param['atts']['class'] ?? array())
+            normalize_classes($param['atts']['class'] ?? array())
         );
 
         $tag     = $param['tag'];
