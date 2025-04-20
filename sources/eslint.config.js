@@ -12,9 +12,7 @@ export default defineConfig([
             globals: globals.browser
         },
         rules: {
-            ...js.configs.recommended.rules,
-            //semi: ['error', 'always'],
-            //quotes: ['error', 'single'],
+            ...js.configs.recommended.rules
         },
     }
 ]);
