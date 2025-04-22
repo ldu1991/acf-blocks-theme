@@ -7,22 +7,23 @@ import plumber from 'gulp-plumber';
 import gulpIf from 'gulp-if';
 import insert from 'gulp-insert';
 import autoprefixer from 'gulp-autoprefixer';
-import changedInPlace from 'gulp-changed-in-place';
+import cached from 'gulp-cached'
+import debug from 'gulp-debug'
+import chalk from 'chalk'
 
 const browserSync = browserSyncLib.create();
-const sass = sassLib(dartSass);
+const sass        = sassLib(dartSass);
 
 // https://sass-lang.com/documentation/breaking-changes/slash-div
 
 /* Paths and variables */
-let domain = 'test-template';
+const domain = 'test-template';
 
 /* End Paths and variables */
-
-function onError(e) {
-    console.log(e.toString());
+const onError = err => {
+    console.error(err.message);
     this.emit('end');
-}
+};
 
 /* CSS */
 const themeData          = JSON.parse(fs.readFileSync('../theme.json'));
@@ -200,11 +201,19 @@ for (let elementsKey in elements) {
 function scss(cb) {
     gulp.src('./scss/**/[^_]*.scss', {allowEmpty: true, sourcemaps: true})
         .pipe(plumber({errorHandler: onError}))
+        .pipe(cached('scss'))
+        .pipe(debug({
+            title: '', logger: message => {
+                console.log(chalk.green.bold('Compiled SCSS: ') + message);
+            }
+        }))
         .pipe(insert.append(additional_header_classes))
         .pipe(sass.sync())
-        .pipe(gulpIf(file => file.path.endsWith('style-editor.scss'), insert.prepend(style_editor_default)))
+        .pipe(gulpIf(
+            file => file.path.endsWith('style-editor.scss'),
+            insert.prepend(style_editor_default)
+        ))
         .pipe(autoprefixer())
-        .pipe(changedInPlace({firstPass: true}))
         .pipe(gulp.dest('../assets/css', {sourcemaps: true}));
     cb();
 }
@@ -223,9 +232,14 @@ function scssRelease(cb) {
 function scssBlocks(cb) {
     gulp.src(['./blocks/**/[^_]*.scss', '!./blocks/__example/**'], {allowEmpty: true, sourcemaps: true})
         .pipe(plumber({errorHandler: onError}))
+        .pipe(cached('scss'))
+        .pipe(debug({
+            title: '', logger: message => {
+                console.log(chalk.green.bold('Compiled SCSS: ') + message);
+            }
+        }))
         .pipe(sass.sync())
         .pipe(autoprefixer())
-        .pipe(changedInPlace({firstPass: true}))
         .pipe(gulp.dest('../blocks', {sourcemaps: true}));
     cb();
 }
@@ -276,10 +290,16 @@ function browserSyncInit(cb) {
 }
 
 function watch(cb) {
-    gulp.watch('../theme.json', {cwd: './'}, gulp.series(scss));
-    gulp.watch('./scss/**/*.scss', {cwd: './'}, gulp.series(scss));
-    gulp.watch('./blocks/**/*.scss', {cwd: './'}, gulp.series(scssBlocks));
-    gulp.watch(['./blocks/**/*.json', './blocks/**/*.php'], {cwd: './'}, gulp.series(blocksFiles));
+    gulp.watch('../theme.json', gulp.series(scss));
+    gulp.watch('./scss/**/*.scss', gulp.series(scss))
+        .on('unlink', filepath => {
+            delete cached.caches.scss[filepath];
+        });
+    gulp.watch('./blocks/**/*.scss', gulp.series(scssBlocks))
+        .on('unlink', filepath => {
+            delete cached.caches.scss[filepath];
+        });
+    gulp.watch(['./blocks/**/*.json', './blocks/**/*.php'], gulp.series(blocksFiles));
     cb();
 }
 
