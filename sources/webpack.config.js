@@ -1,14 +1,14 @@
 import path from 'path';
 import TerserPlugin from 'terser-webpack-plugin';
-import {CleanWebpackPlugin} from 'clean-webpack-plugin';
-import {globSync} from 'glob';
-import {fileURLToPath} from 'url';
+import { CleanWebpackPlugin } from 'clean-webpack-plugin';
+import { globSync } from 'glob';
+import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname  = path.dirname(__filename);
 
 export default (env, argv) => {
-    let entry = {}
+    let entry = {};
 
     globSync('./js/*.js').forEach((file) => {
         entry[path.join('..', 'assets', file)] = './' + file;
@@ -41,7 +41,7 @@ export default (env, argv) => {
                 }
             ]
         }
-    }
+    };
 
     if (argv.mode === 'production') {
         config.optimization = {
@@ -57,16 +57,16 @@ export default (env, argv) => {
                     extractComments: false
                 })
             ]
-        }
-        config.plugins      = [new CleanWebpackPlugin()]
+        };
+        config.plugins      = [new CleanWebpackPlugin()];
         config.performance  = {
             hints: false
-        }
+        };
     } else {
-        config.watch   = true
-        config.cache   = {
+        config.watch = true;
+        config.cache = {
             type: 'filesystem'
-        }
+        };
     }
 
     return config;
