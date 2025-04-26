@@ -7,9 +7,10 @@ import plumber from 'gulp-plumber';
 import gulpIf from 'gulp-if';
 import insert from 'gulp-insert';
 import autoprefixer from 'gulp-autoprefixer';
-import cached from 'gulp-cached'
-import debug from 'gulp-debug'
-import chalk from 'chalk'
+import cached from 'gulp-cached';
+import debug from 'gulp-debug';
+import dependents from 'gulp-dependents';
+import chalk from 'chalk';
 
 const browserSync = browserSyncLib.create();
 const sass        = sassLib(dartSass);
@@ -56,7 +57,7 @@ let style_editor_default = `body .is-layout-flow {
         margin-block-start: ${themeData['styles']['elements']['heading']['spacing']['margin']['top']};
         margin-block-end: ${themeData['styles']['elements']['heading']['spacing']['margin']['bottom']};
     }
-}`
+}`;
 
 // Generate Heading
 let elements = {
@@ -67,18 +68,18 @@ let elements = {
     'h4':      '.h4',
     'h5':      '.h5',
     'h6':      '.h6'
-}
+};
 
-function generateSpacing(json, prefix = "") {
-    let css = "";
+function generateSpacing(json, prefix = '') {
+    let css = '';
 
     for (const key in json) {
         const value = json[key];
-        if (value !== "") {
-            if (typeof value === "object") {
+        if (value !== '') {
+            if (typeof value === 'object') {
                 css += generateSpacing(value, `${prefix}${key}-`);
             } else {
-                const kebabCaseKey = `${prefix}${key.replace(/([A-Z])/g, "-$1").toLowerCase()}`;
+                const kebabCaseKey = `${prefix}${key.replace(/([A-Z])/g, '-$1').toLowerCase()}`;
                 css += `${kebabCaseKey}: ${value}; `;
             }
         }
@@ -88,7 +89,7 @@ function generateSpacing(json, prefix = "") {
 }
 
 function generateTypography(json) {
-    let css = "";
+    let css = '';
 
     for (const key in json) {
         const value = json[key];
@@ -96,7 +97,7 @@ function generateTypography(json) {
             if (key === 'textColumns') {
                 css += `column-count: ${value};`;
             } else {
-                css += `${key.replace(/([A-Z])/g, "-$1").toLowerCase()}: ${value};`;
+                css += `${key.replace(/([A-Z])/g, '-$1').toLowerCase()}: ${value};`;
             }
         }
     }
@@ -105,17 +106,17 @@ function generateTypography(json) {
 }
 
 function generateColor(json) {
-    let css = "";
+    let css = '';
 
     for (const key in json) {
         const value = json[key];
-        if (value !== "") {
+        if (value !== '') {
             if (key === 'gradient') {
-                css += 'background:' + value + ';'
+                css += 'background:' + value + ';';
             } else if (key === 'background') {
-                css += 'background-color:' + value + ';'
+                css += 'background-color:' + value + ';';
             } else if (key === 'text') {
-                css += 'color:' + value + ';'
+                css += 'color:' + value + ';';
             }
         }
     }
@@ -123,16 +124,16 @@ function generateColor(json) {
     return css;
 }
 
-function generateBorder(json, prefix = "") {
-    let css = "";
+function generateBorder(json, prefix = '') {
+    let css = '';
 
     for (const key in json) {
         const value = json[key];
 
-        if (typeof value === "object") {
+        if (typeof value === 'object') {
             css += generateBorder(value, `${prefix}${key}-`);
         } else if (value) {
-            const cssProperty  = `${prefix}${key.replace(/([A-Z])/g, "-$1").toLowerCase()}`;
+            const cssProperty  = `${prefix}${key.replace(/([A-Z])/g, '-$1').toLowerCase()}`;
             const propertyName = `border-${cssProperty}`;
             css += `${propertyName}: ${value};\n`;
         }
@@ -142,12 +143,12 @@ function generateBorder(json, prefix = "") {
 }
 
 function generateOutline(json) {
-    let css = "";
+    let css = '';
 
     for (const key in json) {
         const value = json[key];
-        if (value !== "") {
-            css += `outline-${key}: ${value};`
+        if (value !== '') {
+            css += `outline-${key}: ${value};`;
         }
     }
 
@@ -155,56 +156,57 @@ function generateOutline(json) {
 }
 
 function generateDimensions(json) {
-    let css = "";
+    let css = '';
 
     for (const key in json) {
         const value = json[key];
-        if (value !== "") {
-            css += `${key.replace(/([A-Z])/g, "-$1").toLowerCase()}: ${value};`
+        if (value !== '') {
+            css += `${key.replace(/([A-Z])/g, '-$1').toLowerCase()}: ${value};`;
         }
     }
 
     return css;
 }
 
-let additional_header_classes = ''
+let additional_header_classes = '';
 for (let elementsKey in elements) {
-    let elementValue = themeData.styles.elements[elementsKey]
+    let elementValue = themeData.styles.elements[elementsKey];
 
     if (elementValue !== undefined) {
-        additional_header_classes += elements[elementsKey] + '{'
+        additional_header_classes += elements[elementsKey] + '{';
         for (let elementKey in elementValue) {
 
             if (elementKey === 'spacing') {
-                additional_header_classes += generateSpacing(elementValue[elementKey])
+                additional_header_classes += generateSpacing(elementValue[elementKey]);
             } else if (elementKey === 'typography') {
-                additional_header_classes += generateTypography(elementValue[elementKey])
+                additional_header_classes += generateTypography(elementValue[elementKey]);
             } else if (elementKey === 'color') {
-                additional_header_classes += generateColor(elementValue[elementKey])
+                additional_header_classes += generateColor(elementValue[elementKey]);
             } else if (elementKey === 'border') {
-                additional_header_classes += generateBorder(elementValue[elementKey])
+                additional_header_classes += generateBorder(elementValue[elementKey]);
             } else if (elementKey === 'outline') {
-                additional_header_classes += generateOutline(elementValue[elementKey])
+                additional_header_classes += generateOutline(elementValue[elementKey]);
             } else if (elementKey === 'dimensions') {
-                additional_header_classes += generateDimensions(elementValue[elementKey])
+                additional_header_classes += generateDimensions(elementValue[elementKey]);
             } else if (elementKey === 'shadow') {
-                additional_header_classes += `box-shadow: ${elementValue[elementKey]};`
+                additional_header_classes += `box-shadow: ${elementValue[elementKey]};`;
             }
         }
 
-        additional_header_classes += '}'
+        additional_header_classes += '}';
     }
 }
 
 // End Generate Heading
 
 function scss(cb) {
-    gulp.src('./scss/**/[^_]*.scss', {allowEmpty: true, sourcemaps: true})
-        .pipe(plumber({errorHandler: onError}))
+    gulp.src('./scss/**/*.scss', { allowEmpty: true, sourcemaps: true })
+        .pipe(plumber({ errorHandler: onError }))
         .pipe(cached('scss'))
+        .pipe(dependents())
         .pipe(debug({
             title: '', logger: message => {
-                console.log(chalk.green.bold('Compiled SCSS: ') + message);
+                console.log(chalk.green.bold('SCSS compiled:') + message);
             }
         }))
         .pipe(insert.append(additional_header_classes))
@@ -214,15 +216,15 @@ function scss(cb) {
             insert.prepend(style_editor_default)
         ))
         .pipe(autoprefixer())
-        .pipe(gulp.dest('../assets/css', {sourcemaps: true}));
+        .pipe(gulp.dest('../assets/css', { sourcemaps: true }));
     cb();
 }
 
 function scssRelease(cb) {
-    gulp.src('./scss/**/[^_]*.scss', {allowEmpty: true})
-        .pipe(plumber({errorHandler: onError}))
+    gulp.src('./scss/**/*.scss', { allowEmpty: true })
+        .pipe(plumber({ errorHandler: onError }))
         .pipe(insert.append(additional_header_classes))
-        .pipe(sass.sync({style: 'compressed'}))
+        .pipe(sass.sync({ style: 'compressed' }))
         .pipe(gulpIf(file => file.path.endsWith('style-editor.scss'), insert.prepend(style_editor_default)))
         .pipe(autoprefixer())
         .pipe(gulp.dest('../assets/css'));
@@ -230,24 +232,25 @@ function scssRelease(cb) {
 }
 
 function scssBlocks(cb) {
-    gulp.src(['./blocks/**/[^_]*.scss', '!./blocks/__example/**'], {allowEmpty: true, sourcemaps: true})
-        .pipe(plumber({errorHandler: onError}))
+    gulp.src(['./blocks/**/*.scss', '!./blocks/__example/**'], { allowEmpty: true, sourcemaps: true })
+        .pipe(plumber({ errorHandler: onError }))
         .pipe(cached('scss'))
+        .pipe(dependents())
         .pipe(debug({
             title: '', logger: message => {
-                console.log(chalk.green.bold('Compiled SCSS: ') + message);
+                console.log(chalk.green.bold('SCSS compiled:') + message);
             }
         }))
         .pipe(sass.sync())
         .pipe(autoprefixer())
-        .pipe(gulp.dest('../blocks', {sourcemaps: true}));
+        .pipe(gulp.dest('../blocks', { sourcemaps: true }));
     cb();
 }
 
 function scssBlocksRelease(cb) {
-    gulp.src(['./blocks/**/[^_]*.scss', '!./blocks/__example/**'], {allowEmpty: true})
-        .pipe(plumber({errorHandler: onError}))
-        .pipe(sass.sync({style: 'compressed'}))
+    gulp.src(['./blocks/**/*.scss', '!./blocks/__example/**'], { allowEmpty: true })
+        .pipe(plumber({ errorHandler: onError }))
+        .pipe(sass.sync({ style: 'compressed' }))
         .pipe(autoprefixer())
         .pipe(gulp.dest('../blocks'));
     cb();
@@ -262,7 +265,7 @@ function blocksFiles(cb) {
         './blocks/**/block.json',
         './blocks/**/render.php',
         '!./blocks/__example/**'
-    ], {allowEmpty: true})
+    ], { allowEmpty: true })
         .pipe(gulp.dest('../blocks'));
     cb();
 }
@@ -274,7 +277,7 @@ function browserSyncInit(cb) {
         proxy:  domain,
         notify: false,
         port:   9000
-    })
+    });
 
     gulp.watch([
         '../**/*.php',
@@ -282,8 +285,8 @@ function browserSyncInit(cb) {
         '../blocks/**/*.css',
         '../assets/js/**/*.js',
         '../blocks/**/*.js'
-    ], {cwd: './'})
-        .on('change', function (path, stats) {
+    ], { cwd: './' })
+        .on('change', function(path, stats) {
             browserSync.reload();
         });
     cb();
