@@ -23,7 +23,7 @@ const domain = 'test-template';
 /* End Paths and variables */
 const onError = err => {
     console.error(err.message);
-    this.emit('end');
+    //this.emit('end');
 };
 
 /* CSS */

@@ -3,6 +3,7 @@
 *.iws
 *.log
 .idea
+.vscode
 .htaccess
 .DS_Store
 *.iml

@@ -63,7 +63,7 @@ function set_modules()
 
     if (!empty($script_library)) {
         foreach ($script_library as $handle => $src) {
-            wp_register_script($handle, $src, array('jquery'), wp_get_theme()->get('Version'));
+            wp_register_script($handle, $src, array('jquery'), wp_get_theme()->get('Version'), true);
         }
     }
 
