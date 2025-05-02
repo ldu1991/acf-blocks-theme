@@ -49,61 +49,105 @@ function add_block_category($categories, $post): array
 
 add_filter('block_categories_all', 'add_block_category', 10, 2);
 
-function register_acf_blocks(): void
+/**
+ * @return string[] List of block directories.
+ */
+function theme_get_block_folders(): array
 {
-    $subdirectories = glob(get_stylesheet_directory() . '/blocks/*', GLOB_ONLYDIR);
-
-    foreach ($subdirectories as $subdirectory) {
-        register_block_type($subdirectory);
-    }
+    return glob(get_stylesheet_directory() . '/blocks/*', GLOB_ONLYDIR) ?: array();
 }
 
-add_action('init', 'register_acf_blocks');
+add_action('init', function () {
+    foreach (theme_get_block_folders() as $folder) {
+        register_block_type($folder);
+    }
+});
 
-add_action('enqueue_block_assets', function () {
-    $folders = glob(get_stylesheet_directory() . '/blocks/*', GLOB_ONLYDIR);
+add_action('wp_enqueue_scripts', function () {
+    foreach (theme_get_block_folders() as $folder) {
+        $folder    = wp_normalize_path($folder);
+        $meta_file = trailingslashit($folder) . 'block.json';
+        if (!file_exists($meta_file)) {
+            continue;
+        }
 
-    foreach ($folders as $folder) {
-        $folder = wp_normalize_path($folder);
-        if (file_exists(trailingslashit($folder) . 'block.json')) {
-            $metadata = wp_json_file_decode(trailingslashit($folder) . 'block.json', array('associative' => true));
+        $metadata   = wp_json_file_decode($meta_file, ['associative' => true]);
+        $block_name = $metadata['name'] ?? '';
+        if (!$block_name || !has_block($block_name)) {
+            continue;
+        }
 
-            $deps_style = array();
-            if (isset($metadata['dependencies']) &&
-                isset($metadata['dependencies']['style']) &&
-                is_array($metadata['dependencies']['style'])) {
-                $deps_style = $metadata['dependencies']['style'];
-            }
+        $handle_base = str_replace('/', '-', $block_name);
+        $uri_base    = get_stylesheet_directory_uri() . '/blocks/' . basename($folder) . '/';
 
-            $deps_script = array();
-            if (isset($metadata['dependencies']) &&
-                isset($metadata['dependencies']['script']) &&
-                is_array($metadata['dependencies']['script'])) {
-                $deps_script = $metadata['dependencies']['script'];
-            }
+        // dependencies
+        $deps_style  = $metadata['dependencies']['style'] ?? array();
+        $deps_script = $metadata['dependencies']['script'] ?? array();
 
-            if (has_block($metadata['name'])) {
-                // Style
-                if (file_exists(trailingslashit($folder) . 'style.css')) {
-                    wp_enqueue_style(
-                        str_replace('/', '-', $metadata['name']),
-                        get_stylesheet_directory_uri() . '/blocks/' . basename($folder) . '/style.css',
-                        $deps_style,
-                        wp_get_theme()->get('Version')
-                    );
-                }
+        // style.css
+        $style_file = trailingslashit($folder) . 'style.css';
+        if (file_exists($style_file)) {
+            wp_enqueue_style(
+                $handle_base,
+                $uri_base . 'style.css',
+                $deps_style,
+                filemtime($style_file)
+            );
+        }
 
-                // Script
-                if (file_exists(trailingslashit($folder) . 'script.js')) {
-                    wp_enqueue_script(
-                        str_replace('/', '-', $metadata['name']),
-                        get_stylesheet_directory_uri() . '/blocks/' . basename($folder) . '/script.js',
-                        $deps_script,
-                        wp_get_theme()->get('Version'),
-                        true
-                    );
-                }
-            }
+        // script.js
+        $script_file = trailingslashit($folder) . 'script.js';
+        if (file_exists($script_file)) {
+            wp_enqueue_script(
+                $handle_base,
+                $uri_base . 'script.js',
+                $deps_script,
+                filemtime($script_file),
+                true
+            );
+        }
+    }
+});
+
+add_action('enqueue_block_editor_assets', function () {
+    foreach (theme_get_block_folders() as $folder) {
+        $folder    = wp_normalize_path($folder);
+        $meta_file = trailingslashit($folder) . 'block.json';
+        if (!file_exists($meta_file)) {
+            continue;
+        }
+
+        $metadata   = wp_json_file_decode($meta_file, ['associative' => true]);
+        $block_name = $metadata['name'] ?? '';
+        if (!$block_name) {
+            continue;
+        }
+
+        $handle_base = 'editor-' . str_replace('/', '-', $block_name);
+        $uri_base    = get_stylesheet_directory_uri() . '/blocks/' . basename($folder) . '/';
+
+        $deps_style  = $metadata['dependencies']['style'] ?? array();
+        $deps_script = $metadata['dependencies']['script'] ?? array();
+
+        $editor_style = trailingslashit($folder) . 'style.css';
+        if (file_exists($editor_style)) {
+            wp_enqueue_style(
+                $handle_base,
+                $uri_base . 'style.css',
+                $deps_style,
+                filemtime($editor_style)
+            );
+        }
+
+        $editor_script = trailingslashit($folder) . 'script.js';
+        if (file_exists($editor_script)) {
+            wp_enqueue_script(
+                $handle_base,
+                $uri_base . 'script.js',
+                $deps_script,
+                filemtime($editor_script),
+                true
+            );
         }
     }
 });
