@@ -11,12 +11,12 @@ export default (env, argv) => {
     let entry = {};
 
     globSync('./js/*.js').forEach((file) => {
-        entry[path.join('..', 'assets', file)] = './' + file;
+        entry[path.join('assets', file)] = './' + file;
     });
 
     globSync('./blocks/**/*.js').forEach((file) => {
         if (!file.includes('__example')) {
-            entry[path.join('..', file)] = './' + file;
+            entry[file] = './' + file;
         }
     });
 
@@ -25,7 +25,7 @@ export default (env, argv) => {
         entry:  entry,
         output: {
             filename: '[name]',
-            path:     path.resolve(__dirname, '.')
+            path:     path.resolve(__dirname, '../')
         },
         module: {
             rules: [
