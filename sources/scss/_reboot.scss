@@ -70,15 +70,15 @@ ul {
     padding: 0;
     margin: 0 0 25px 20px;
     list-style: disc inside;
-    
+
     &:last-child {
         margin-bottom: 0;
     }
-    
+
     & & {
         list-style-type: circle;
     }
-    
+
     & & & {
         list-style-type: square;
     }
@@ -88,7 +88,7 @@ ol {
     padding: 0;
     margin: 0 0 25px 25px;
     list-style-position: inside;
-    
+
     &:last-child {
         margin-bottom: 0;
     }
@@ -163,7 +163,7 @@ pre {
     overflow: auto;
     padding: 15px;
     text-align: left;
-    
+
     [dir=rtl] & {
         text-align: right;
     }
@@ -174,7 +174,7 @@ code,
 kbd,
 samp {
     font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-    font-size: _rem(16);
+    font-size: 1rem;
     direction: ltr /* rtl:ignore */
 ;
     unicode-bidi: bidi-override;
@@ -185,7 +185,7 @@ pre {
     margin-top: 0;
     margin-bottom: 15px;
     overflow: auto;
-    font-size: _rem(14);
+    font-size: .875rem;
 }
 
 pre code {
@@ -195,7 +195,7 @@ pre code {
 }
 
 code {
-    font-size: _rem(14);
+    font-size: .875rem;
     color: #d63384;
     word-wrap: break-word;
 }
@@ -241,7 +241,7 @@ table {
     border: none;
     box-shadow: 0 4px 10px rgba(0, 0, 0, .1);
     margin: 15px 0 25px;
-    
+
     caption {
         caption-side: top;
         text-align: center;
@@ -249,26 +249,26 @@ table {
         padding-bottom: 10px;
         color: #6c757d;
     }
-    
+
     thead {
         background-color: #f9f9f9;
     }
-    
+
     tbody {
-        
+
         tr {
             border-bottom: 1px solid #eee;
-            
+
             &:last-child {
                 border-bottom: none;
             }
         }
     }
-    
+
     tfoot {
         background-color: #f9f9f9;
     }
-    
+
     th, td {
         padding: 10px 15px;
     }
@@ -360,11 +360,11 @@ legend {
     margin-bottom: 0.5rem;
     font-size: calc(1.275rem + 0.3vw);
     line-height: inherit;
-    
+
     @media (min-width: 1200px) {
         font-size: 1.5rem;
     }
-    
+
     + * {
         clear: left;
     }

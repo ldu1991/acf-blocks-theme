@@ -1,77 +1,59 @@
 {
-    "name": "acf-blocks-theme",
-    "version": "12.0.0",
-    "description": "Starter pack for WordPress development",
-    "exports": "./gulpfile.js",
-    "type": "module",
-    "scripts": {
-        "dev": "concurrently \"gulp\" \"webpack --mode development --watch\"",
-        "release": "concurrently \"gulp release\" \"webpack --mode production\"",
-        "eslint": "npx eslint js blocks",
-        "format": "prettier --write js/**/*.js blocks/**/*.js",
-        "check-updates": "ncu",
-        "upgrade-deps": "ncu -u && npm install"
-    },
-    "engines": {
-        "node": ">=18"
-    },
-    "author": {
-        "name": "Denis Lipatov",
-        "email": "ldu2601@gmail.com",
-        "url": "https://github.com/ldu1991"
-    },
-    "license": "ISC",
-    "browserslist": [
-        ",> 1%",
-        "last 1 Android versions",
-        "last 1 ChromeAndroid versions",
-        "last 2 Chrome versions",
-        "last 2 Firefox versions",
-        "last 2 Safari versions",
-        "last 2 iOS versions",
-        "last 2 Edge versions",
-        "last 2 Opera versions"
-    ],
-    "devDependencies": {
-        "@babel/core": "^7.26.10",
-        "@babel/preset-env": "^7.26.9",
-        "@eslint/js": "^9.24.0",
-        "babel-loader": "^10.0.0",
-        "browser-sync": "^3.0.4",
-        "chalk": "^5.4.1",
-        "clean-webpack-plugin": "^4.0.0",
-        "concurrently": "^9.1.2",
-        "eslint": "^9.24.0",
-        "eslint-webpack-plugin": "^5.0.0",
-        "fs": "^0.0.1-security",
-        "glob": "^11.0.1",
-        "globals": "^16.0.0",
-        "gulp": "^5.0.0",
-        "gulp-autoprefixer": "^9.0.0",
-        "gulp-cached": "^1.1.1",
-        "gulp-debug": "^5.0.1",
-        "gulp-dependents": "^1.2.5",
-        "gulp-if": "^3.0.0",
-        "gulp-insert": "^0.5.0",
-        "gulp-plumber": "^1.2.1",
-        "gulp-sass": "^6.0.1",
-        "npm-check-updates": "^17.1.18",
-        "prettier": "^3.5.3",
-        "sass": "^1.86.3",
-        "terser-webpack-plugin": "^5.3.14",
-        "webpack": "^5.99.5",
-        "webpack-cli": "^6.0.1"
-    },
-    "dependencies": {
-        "@fancyapps/fancybox": "latest",
-        "lazysizes": "latest",
-        "lottie-web": "latest",
-        "mq-breakpoints": "latest",
-        "remodal": "latest",
-        "select2": "latest",
-        "sharer.js": "latest",
-        "sp-form-data": "latest",
-        "swiper": "latest",
-        "trim-words": "latest"
-    }
+  "name": "acf-blocks-theme",
+  "version": "13.0.0",
+  "description": "Starter pack for WordPress development",
+  "exports": "./gulpfile.js",
+  "type": "module",
+  "scripts": {
+    "dev": "concurrently \"gulp\" \"webpack --mode development --watch\"",
+    "release": "concurrently \"gulp release\" \"webpack --mode production\"",
+    "eslint": "npx eslint js blocks",
+    "format": "prettier --write js/**/*.js blocks/**/*.js",
+    "check-updates": "ncu",
+    "upgrade-deps": "ncu -u && npm install"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "author": {
+    "name": "Denis Lipatov",
+    "email": "ldu2601@gmail.com",
+    "url": "https://github.com/ldu1991"
+  },
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "^7.29.0",
+    "@babel/preset-env": "^7.29.2",
+    "@eslint/js": "^10.0.1",
+    "babel-loader": "^10.1.1",
+    "browser-sync": "^3.0.4",
+    "chalk": "^5.6.2",
+    "clean-webpack-plugin": "^4.0.0",
+    "concurrently": "^9.2.1",
+    "eslint": "^10.2.1",
+    "eslint-webpack-plugin": "^6.0.0",
+    "glob": "^13.0.6",
+    "globals": "^17.5.0",
+    "gulp": "^5.0.1",
+    "gulp-autoprefixer": "^10.0.0",
+    "gulp-cached": "^1.1.1",
+    "gulp-debug": "^5.0.1",
+    "gulp-dependents": "^1.2.5",
+    "gulp-if": "^3.0.0",
+    "gulp-insert": "^0.5.0",
+    "gulp-plumber": "^1.2.1",
+    "gulp-sass": "^6.0.1",
+    "npm-check-updates": "^22.0.1",
+    "prettier": "^3.8.3",
+    "sass": "^1.99.0",
+    "terser-webpack-plugin": "^5.5.0",
+    "webpack": "^5.106.2",
+    "webpack-cli": "^7.0.2"
+  },
+  "dependencies": {
+    "@fancyapps/fancybox": "^3.5.7",
+    "lottie-web": "^5.13.0",
+    "swiper": "^12.1.3",
+    "trim-words": "^2.0.0"
+  }
 }

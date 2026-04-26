@@ -35,7 +35,7 @@ add_action('admin_head', 'custom_inline_menu_styles');
  */
 function set_acf_color_palette()
 {
-    $theme_json = tcl_get_global_settings();
+    $theme_json = abt_get_global_settings();
     $color_palettes = '';
     foreach ($theme_json['color']['palette'] as $color) {
         $color_palettes .= '"' . $color['color'] . '",';
@@ -137,7 +137,7 @@ function add_theme_supports()
  */
 function color_palettes_tiny_mce($init)
 {
-    $theme_json = tcl_get_global_settings();
+    $theme_json = abt_get_global_settings();
 
 
     $color_palettes = '';

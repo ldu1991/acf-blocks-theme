@@ -8,14 +8,14 @@
  */
 
 $general_class = '__class_block__';
-$attr = get_section_options($general_class, $block, $is_preview);
+$attr          = get_section_options($general_class, $block, $is_preview);
 if (has_preview_screenshot($block, '')) return;
 
 $filed = get_field('filed');
 ?>
 
 <section <?php echo $attr['id_attr']; ?>
-         class="<?php echo esc_attr(trim(implode(' ', $attr['class']))) ?>">
+      class="<?php echo esc_attr(trim(implode(' ', $attr['class']))) ?>">
 
 
 </section>
