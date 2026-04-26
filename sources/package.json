@@ -13,7 +13,7 @@
     "upgrade-deps": "ncu -u && npm install"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=20"
   },
   "author": {
     "name": "Denis Lipatov",
@@ -28,7 +28,6 @@
     "babel-loader": "^10.1.1",
     "browser-sync": "^3.0.4",
     "chalk": "^5.6.2",
-    "clean-webpack-plugin": "^4.0.0",
     "concurrently": "^9.2.1",
     "eslint": "^10.2.1",
     "eslint-webpack-plugin": "^6.0.0",
