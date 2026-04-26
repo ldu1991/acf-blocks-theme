@@ -76,7 +76,7 @@ export const renderBlock = (type = '', fn) => {
             ) {
                 let blockElement = (el) => {
                     let element = isjQuery(el).querySelector('.' + wp_ajax.prefix + '-' + type);
-                    return !!element ? element : isjQuery(el);
+                    return element ? element : isjQuery(el);
                 };
                 acf.addAction('render_block_preview/type=' + type, (el) => fn(blockElement(el), true));
             }

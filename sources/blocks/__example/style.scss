@@ -1,5 +1,7 @@
 @use "../../scss/variables" as *;
 
-.__example {
+$root: '.__PREFIX__-__EXAMPLE__';
+
+#{$root} {
 
 }
