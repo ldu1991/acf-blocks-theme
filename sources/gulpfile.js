@@ -311,5 +311,5 @@ function watch(cb) {
   cb();
 }
 
-export const release = gulp.series(scssRelease, scssBlocksRelease);
+export const build = gulp.series(scssRelease, scssBlocksRelease);
 export default gulp.series(scss, scssBlocks, blocksFiles, gulp.parallel(browserSyncInit, watch));
