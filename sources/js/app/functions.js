@@ -90,33 +90,40 @@ export const renderBlock = (type = '', fn) => {
 };
 
 /**
- * Fluid-responsive
- * @param min_size
- * @param max_size
- * @param min_viewport
- * @param max_viewport
+ * @param minSize
+ * @param maxSize
+ * @param minViewport
+ * @param maxViewport
+ * @param unit
  * @returns {string}
  */
-export const clamp = (min_size, max_size, min_viewport = 576, max_viewport = 1400) => {
-  const view_port_width_offset = min_viewport / 100 / 16 + 'rem';
-  const size_difference = max_size - min_size;
-  const viewport_difference = max_viewport - min_viewport;
-  const linear_factor = ((size_difference / viewport_difference) * 100).toFixed(4);
+export function mathClamp(minSize, maxSize, minViewport = 768, maxViewport = 1400, unit = 'rem') {
+  const toUnit = (size) => {
+    const context = 16;
+    switch (unit) {
+      case 'rem':
+        return `${+(size / context).toFixed(6)}rem`;
+      case 'em':
+        return `${+(size / context).toFixed(6)}em`;
+      default:
+        return `${size}px`;
+    }
+  };
 
-  const fluid_target_size = min_size / 16 + 'rem + ((1vw - ' + view_port_width_offset + ') * ' + linear_factor + ')';
+  if (minSize === maxSize) return toUnit(minSize);
 
-  let result = '';
+  const viewPortWidthOffset = toUnit(minViewport / 100);
+  const sizeDifference = maxSize - minSize;
+  const viewportDifference = maxViewport - minViewport;
+  const linearFactor = Math.round(100 * (sizeDifference / viewportDifference) * 1000) / 1000;
 
-  if (min_size === max_size) {
-    result = min_size / 16 + 'rem';
-  } else if (min_size > max_size) {
-    result = 'clamp(' + max_size / 16 + 'rem, ' + fluid_target_size + ', ' + min_size / 16 + 'rem)';
-  } else if (min_size < max_size) {
-    result = 'clamp(' + min_size / 16 + 'rem, ' + fluid_target_size + ', ' + max_size / 16 + 'rem)';
-  }
+  const fluid = `${toUnit(minSize)} + ((1vw - ${viewPortWidthOffset}) * ${linearFactor})`;
 
-  return result;
-};
+  const [clampMin, clampMax] =
+    minSize > maxSize ? [toUnit(maxSize), toUnit(minSize)] : [toUnit(minSize), toUnit(maxSize)];
+
+  return `clamp(${clampMin}, ${fluid}, ${clampMax})`;
+}
 
 /**
  * Paginate Links

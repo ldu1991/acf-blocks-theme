@@ -12,32 +12,46 @@ if (!function_exists('normalize_classes')) {
 }
 
 /**
- * @param $min_size
- * @param $max_size
- * @param int $min_viewport
- * @param int $max_viewport
+ * @param float $min_size
+ * @param float $max_size
+ * @param float $min_viewport
+ * @param float $max_viewport
+ * @param string $unit
  * @return string
  */
-function clamp($min_size, $max_size, int $min_viewport = 768, int $max_viewport = 1400)
+function math_clamp(
+  float  $min_size,
+  float  $max_size,
+  float  $min_viewport = 768,
+  float  $max_viewport = 1400,
+  string $unit = 'rem'
+): string
 {
-  $view_port_width_offset = ($min_viewport / 100) / 16 . 'rem';
-  $size_difference = $max_size - $min_size;
-  $viewport_difference = $max_viewport - $min_viewport;
-  $linear_factor = round(($size_difference / $viewport_difference) * 100, 4);
+  $to_unit = function (float $size) use ($unit): string {
+    $context = 16;
+    return match ($unit) {
+      'rem' => round($size / $context, 6) . 'rem',
+      'em' => round($size / $context, 6) . 'em',
+      default => $size . 'px',
+    };
+  };
 
-  $fluid_target_size = ($min_size / 16) . "rem + ((1vw - {$view_port_width_offset}) * {$linear_factor})";
-
-  $result = "";
-
-  if ($min_size == $max_size) {
-    $result = ($min_size / 16) . 'rem';
-  } else if ($min_size > $max_size) {
-    $result = "clamp(" . $max_size / 16 . "rem, {$fluid_target_size}, " . $min_size / 16 . "rem)";
-  } else if ($min_size < $max_size) {
-    $result = "clamp(" . $min_size / 16 . "rem, {$fluid_target_size}, " . $max_size / 16 . "rem)";
+  if ($min_size === $max_size) {
+    return $to_unit($min_size);
   }
 
-  return $result;
+  $view_port_width_offset = $to_unit($min_viewport / 100);
+  $size_difference = $max_size - $min_size;
+  $viewport_difference = $max_viewport - $min_viewport;
+  $linear_factor = round((100 * ($size_difference / $viewport_difference)) * 1000) / 1000;
+
+  $fluid = "{$to_unit($min_size)} + ((1vw - {$view_port_width_offset}) * {$linear_factor})";
+
+  [$clamp_min, $clamp_max] = $min_size > $max_size
+    ? [$to_unit($max_size), $to_unit($min_size)]
+    : [$to_unit($min_size), $to_unit($max_size)];
+
+  return "clamp({$clamp_min}, {$fluid}, {$clamp_max})";
 }
 
 /**
