@@ -27,8 +27,14 @@ const onError = (err) => {
 };
 
 /* CSS */
-const themeData = JSON.parse(fs.readFileSync('../theme.json'));
-let style_editor_default = `body .is-layout-flow {
+function clearScssCache(cb) {
+  delete cached.caches.scss;
+  cb();
+}
+
+function buildThemeStyles() {
+  const themeData = JSON.parse(fs.readFileSync('../theme.json'));
+  let style_editor_default = `body .is-layout-flow {
     > * + * {
         margin-block-start: 0;
         margin-block-end: 0;
@@ -59,146 +65,149 @@ let style_editor_default = `body .is-layout-flow {
     }
 }`;
 
-// Generate Heading
-let elements = {
-  heading: '.h1, .h2, .h3, .h4, .h5, .h6',
-  h1: '.h1',
-  h2: '.h2',
-  h3: '.h3',
-  h4: '.h4',
-  h5: '.h5',
-  h6: '.h6',
-};
+  // Generate Heading
+  let elements = {
+    heading: '.h1, .h2, .h3, .h4, .h5, .h6',
+    h1: '.h1',
+    h2: '.h2',
+    h3: '.h3',
+    h4: '.h4',
+    h5: '.h5',
+    h6: '.h6',
+  };
 
-function generateSpacing(json, prefix = '') {
-  let css = '';
+  function generateSpacing(json, prefix = '') {
+    let css = '';
 
-  for (const key in json) {
-    const value = json[key];
-    if (value !== '') {
-      if (typeof value === 'object') {
-        css += generateSpacing(value, `${prefix}${key}-`);
-      } else {
-        const kebabCaseKey = `${prefix}${key.replace(/([A-Z])/g, '-$1').toLowerCase()}`;
-        css += `${kebabCaseKey}: ${value}; `;
+    for (const key in json) {
+      const value = json[key];
+      if (value !== '') {
+        if (typeof value === 'object') {
+          css += generateSpacing(value, `${prefix}${key}-`);
+        } else {
+          const kebabCaseKey = `${prefix}${key.replace(/([A-Z])/g, '-$1').toLowerCase()}`;
+          css += `${kebabCaseKey}: ${value}; `;
+        }
       }
     }
+
+    return css;
   }
 
-  return css;
-}
+  function generateTypography(json) {
+    let css = '';
 
-function generateTypography(json) {
-  let css = '';
+    for (const key in json) {
+      const value = json[key];
+      if (value) {
+        if (key === 'textColumns') {
+          css += `column-count: ${value};`;
+        } else {
+          css += `${key.replace(/([A-Z])/g, '-$1').toLowerCase()}: ${value};`;
+        }
+      }
+    }
 
-  for (const key in json) {
-    const value = json[key];
-    if (value) {
-      if (key === 'textColumns') {
-        css += `column-count: ${value};`;
-      } else {
+    return css;
+  }
+
+  function generateColor(json) {
+    let css = '';
+
+    for (const key in json) {
+      const value = json[key];
+      if (value !== '') {
+        if (key === 'gradient') {
+          css += 'background:' + value + ';';
+        } else if (key === 'background') {
+          css += 'background-color:' + value + ';';
+        } else if (key === 'text') {
+          css += 'color:' + value + ';';
+        }
+      }
+    }
+
+    return css;
+  }
+
+  function generateBorder(json, prefix = '') {
+    let css = '';
+
+    for (const key in json) {
+      const value = json[key];
+
+      if (typeof value === 'object') {
+        css += generateBorder(value, `${prefix}${key}-`);
+      } else if (value) {
+        const cssProperty = `${prefix}${key.replace(/([A-Z])/g, '-$1').toLowerCase()}`;
+        const propertyName = `border-${cssProperty}`;
+        css += `${propertyName}: ${value};\n`;
+      }
+    }
+
+    return css;
+  }
+
+  function generateOutline(json) {
+    let css = '';
+
+    for (const key in json) {
+      const value = json[key];
+      if (value !== '') {
+        css += `outline-${key}: ${value};`;
+      }
+    }
+
+    return css;
+  }
+
+  function generateDimensions(json) {
+    let css = '';
+
+    for (const key in json) {
+      const value = json[key];
+      if (value !== '') {
         css += `${key.replace(/([A-Z])/g, '-$1').toLowerCase()}: ${value};`;
       }
     }
+
+    return css;
   }
 
-  return css;
-}
+  let additional_header_classes = '';
+  for (let elementsKey in elements) {
+    let elementValue = themeData.styles.elements[elementsKey];
 
-function generateColor(json) {
-  let css = '';
-
-  for (const key in json) {
-    const value = json[key];
-    if (value !== '') {
-      if (key === 'gradient') {
-        css += 'background:' + value + ';';
-      } else if (key === 'background') {
-        css += 'background-color:' + value + ';';
-      } else if (key === 'text') {
-        css += 'color:' + value + ';';
+    if (elementValue !== undefined) {
+      additional_header_classes += elements[elementsKey] + '{';
+      for (let elementKey in elementValue) {
+        if (elementKey === 'spacing') {
+          additional_header_classes += generateSpacing(elementValue[elementKey]);
+        } else if (elementKey === 'typography') {
+          additional_header_classes += generateTypography(elementValue[elementKey]);
+        } else if (elementKey === 'color') {
+          additional_header_classes += generateColor(elementValue[elementKey]);
+        } else if (elementKey === 'border') {
+          additional_header_classes += generateBorder(elementValue[elementKey]);
+        } else if (elementKey === 'outline') {
+          additional_header_classes += generateOutline(elementValue[elementKey]);
+        } else if (elementKey === 'dimensions') {
+          additional_header_classes += generateDimensions(elementValue[elementKey]);
+        } else if (elementKey === 'shadow') {
+          additional_header_classes += `box-shadow: ${elementValue[elementKey]};`;
+        }
       }
+
+      additional_header_classes += '}';
     }
   }
 
-  return css;
+  return { style_editor_default, additional_header_classes };
 }
-
-function generateBorder(json, prefix = '') {
-  let css = '';
-
-  for (const key in json) {
-    const value = json[key];
-
-    if (typeof value === 'object') {
-      css += generateBorder(value, `${prefix}${key}-`);
-    } else if (value) {
-      const cssProperty = `${prefix}${key.replace(/([A-Z])/g, '-$1').toLowerCase()}`;
-      const propertyName = `border-${cssProperty}`;
-      css += `${propertyName}: ${value};\n`;
-    }
-  }
-
-  return css;
-}
-
-function generateOutline(json) {
-  let css = '';
-
-  for (const key in json) {
-    const value = json[key];
-    if (value !== '') {
-      css += `outline-${key}: ${value};`;
-    }
-  }
-
-  return css;
-}
-
-function generateDimensions(json) {
-  let css = '';
-
-  for (const key in json) {
-    const value = json[key];
-    if (value !== '') {
-      css += `${key.replace(/([A-Z])/g, '-$1').toLowerCase()}: ${value};`;
-    }
-  }
-
-  return css;
-}
-
-let additional_header_classes = '';
-for (let elementsKey in elements) {
-  let elementValue = themeData.styles.elements[elementsKey];
-
-  if (elementValue !== undefined) {
-    additional_header_classes += elements[elementsKey] + '{';
-    for (let elementKey in elementValue) {
-      if (elementKey === 'spacing') {
-        additional_header_classes += generateSpacing(elementValue[elementKey]);
-      } else if (elementKey === 'typography') {
-        additional_header_classes += generateTypography(elementValue[elementKey]);
-      } else if (elementKey === 'color') {
-        additional_header_classes += generateColor(elementValue[elementKey]);
-      } else if (elementKey === 'border') {
-        additional_header_classes += generateBorder(elementValue[elementKey]);
-      } else if (elementKey === 'outline') {
-        additional_header_classes += generateOutline(elementValue[elementKey]);
-      } else if (elementKey === 'dimensions') {
-        additional_header_classes += generateDimensions(elementValue[elementKey]);
-      } else if (elementKey === 'shadow') {
-        additional_header_classes += `box-shadow: ${elementValue[elementKey]};`;
-      }
-    }
-
-    additional_header_classes += '}';
-  }
-}
-
-// End Generate Heading
 
 function scss(cb) {
+  const { style_editor_default, additional_header_classes } = buildThemeStyles();
+
   gulp
     .src('./scss/**/*.scss', { allowEmpty: true, sourcemaps: true })
     .pipe(plumber({ errorHandler: onError }))
@@ -216,11 +225,14 @@ function scss(cb) {
     .pipe(sass.sync())
     .pipe(gulpIf((file) => file.path.endsWith('style-editor.scss'), insert.prepend(style_editor_default)))
     .pipe(autoprefixer())
-    .pipe(gulp.dest('../assets/css', { sourcemaps: true }));
-  cb();
+    .pipe(gulp.dest('../assets/css', { sourcemaps: true }))
+    .on('end', cb)
+    .on('error', cb);
 }
 
 function scssRelease(cb) {
+  const { style_editor_default, additional_header_classes } = buildThemeStyles();
+
   gulp
     .src('./scss/**/*.scss', { allowEmpty: true })
     .pipe(plumber({ errorHandler: onError }))
@@ -228,8 +240,9 @@ function scssRelease(cb) {
     .pipe(sass.sync({ style: 'compressed' }))
     .pipe(gulpIf((file) => file.path.endsWith('style-editor.scss'), insert.prepend(style_editor_default)))
     .pipe(autoprefixer())
-    .pipe(gulp.dest('../assets/css'));
-  cb();
+    .pipe(gulp.dest('../assets/css'))
+    .on('end', cb)
+    .on('error', cb);
 }
 
 function scssBlocks(cb) {
@@ -248,8 +261,9 @@ function scssBlocks(cb) {
     )
     .pipe(sass.sync())
     .pipe(autoprefixer())
-    .pipe(gulp.dest('../blocks', { sourcemaps: true }));
-  cb();
+    .pipe(gulp.dest('../blocks', { sourcemaps: true }))
+    .on('end', cb)
+    .on('error', cb);
 }
 
 function scssBlocksRelease(cb) {
@@ -258,8 +272,9 @@ function scssBlocksRelease(cb) {
     .pipe(plumber({ errorHandler: onError }))
     .pipe(sass.sync({ style: 'compressed' }))
     .pipe(autoprefixer())
-    .pipe(gulp.dest('../blocks'));
-  cb();
+    .pipe(gulp.dest('../blocks'))
+    .on('end', cb)
+    .on('error', cb);
 }
 
 /* End CSS */
@@ -300,7 +315,7 @@ function browserSyncInit(cb) {
 }
 
 function watch(cb) {
-  gulp.watch('../theme.json', gulp.series(scss));
+  gulp.watch('../theme.json', gulp.series(clearScssCache, scss));
   gulp.watch('./scss/**/*.scss', gulp.series(scss)).on('unlink', (filepath) => {
     delete cached.caches.scss[filepath];
   });
