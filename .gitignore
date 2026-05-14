@@ -11,7 +11,9 @@ out
 gen
 node_modules
 package-lock.json
+assets/css
+assets/js
+blocks
 
-blocks/test-block
 sources/blocks/test-block
 acf-json/group_6a01e308556ea.json
